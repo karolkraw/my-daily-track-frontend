@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { Section } from '../../models/section.model';
 
 @Component({
   selector: 'app-main',
@@ -6,16 +8,20 @@ import { Component } from '@angular/core';
   styleUrl: './main.component.css'
 })
 export class MainComponent {
-  sections: String[] = [];
+  sections: Section[] = [];
   sectionToAdd: String = "";
+  nextId: number = 1;
 
-  constructor() {
+  constructor(private router: Router) {
     this.loadFromLocalStorage();
   }
 
   addSection() {
-    this.sections.push(this.sectionToAdd);
-    this.saveToLocalStorage();
+    if (this.sectionToAdd.trim()) {
+      this.sections.push({ id: this.nextId++, name: this.sectionToAdd.trim() });
+      this.sectionToAdd = '';
+      this.saveToLocalStorage()
+    }
   }
 
   private saveToLocalStorage(): void {
@@ -27,5 +33,9 @@ export class MainComponent {
     if (savedSections) {
       this.sections = JSON.parse(savedSections);
     }
+  }
+
+  viewSection(id: number) {
+    this.router.navigate(['/section', id]);
   }
 }

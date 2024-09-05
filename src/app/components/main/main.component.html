@@ -1,0 +1,21 @@
+<body>
+  <div [ngClass]="sections.length === 0 ? 'empty' : 'container'">
+    <div class="add-section">
+      <input 
+      type="text" 
+      placeholder="New section..." 
+      [(ngModel)]="sectionToAdd"
+      (keyup.enter)="addSection()"
+      >
+      <button (click)="addSection()">Add</button>
+    </div>
+    <div class="sections-container">
+      <div *ngFor="let section of sections" 
+           class="section" 
+           (click)="viewSection(section.id)">
+        <h2>{{ section.name }}</h2>
+      </div>
+    </div>
+  </div>
+</body>
+
