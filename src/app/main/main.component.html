@@ -1,21 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Main Page with 5 Divs</title>
-</head>
 <body>
   <div class="container">
-    <div class="input">
+    <div class="add-section">
       <input 
       type="text" 
-      placeholder="add new section" 
+      placeholder="New section..." 
       [(ngModel)]="sectionToAdd"
       (keyup.enter)="addSection()"
       >
-      <button (click)="addSection()">Add New Section</button>
+      <button (click)="addSection()">Add</button>
     </div>
     <div class="sections-container">
       <div *ngFor="let section of sections">
@@ -26,4 +18,4 @@
     </div>
   </div>
 </body>
-</html>
+
