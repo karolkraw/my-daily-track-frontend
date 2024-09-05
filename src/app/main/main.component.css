@@ -13,13 +13,12 @@ body {
   min-height: 100vh;
 }
 
-/* Container styling */
 .container {
   display: flex;
-  flex-wrap: wrap; /* Allows divs to wrap to the next line on smaller screens */
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 20px; /* Space between the divs */
-  max-width: 1200px; /* Restricts container width */
+  gap: 20px;
+  max-width: 1200px;
   padding: 20px;
   background-color: #fff;
   border-radius: 10px;
@@ -27,8 +26,35 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.input {
+  width: 300px;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e0e0e0;
+  border: 2px solid #333;
+  border-radius: 5px;
+  text-align: center;
+  padding: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.sections-container {
+  display: flex;
+  flex-wrap: wrap; /* Allows divs to wrap to the next line on smaller screens */
+  justify-content: center;
+  gap: 20px; /* Space between the divs */
+  max-width: 1200px; /* Restricts container width */
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;  
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 /* Styling for the divs (boxes) */
-.box {
+.section {
   width: 300px;
   height: 150px;
   display: flex;
@@ -44,13 +70,12 @@ body {
 }
 
 /* Hover effect */
-.box:hover {
+.section:hover {
   background-color: #d1d1d1;
 }
 
-/* Media query to make the boxes responsive */
 @media (max-width: 768px) {
-  .box {
-      width: 100%; /* Make the boxes full-width on smaller screens */
+  .section {
+      width: 100%;
   }
 }

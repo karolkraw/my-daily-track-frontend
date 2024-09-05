@@ -7,12 +7,23 @@
     <title>Main Page with 5 Divs</title>
 </head>
 <body>
-    <div class="container">
-        <div class="box box1">Div 1: Short Description</div>
-        <div class="box box2">Div 2: Another Short Description</div>
-        <div class="box box3">Div 3: A Moderately Sized Description</div>
-        <div class="box box4">Div 4: Longer Description Here</div>
-        <div class="box box5">Div 5: The Longest Description in This Layout</div>
+  <div class="container">
+    <div class="input">
+      <input 
+      type="text" 
+      placeholder="add new section" 
+      [(ngModel)]="sectionToAdd"
+      (keyup.enter)="addSection()"
+      >
+      <button (click)="addSection()">Add New Section</button>
     </div>
+    <div class="sections-container">
+      <div *ngFor="let section of sections">
+        <div class="section">
+          <h2>{{ section }}</h2>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

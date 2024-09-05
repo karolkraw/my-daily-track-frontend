@@ -6,5 +6,26 @@ import { Component } from '@angular/core';
   styleUrl: './main.component.css'
 })
 export class MainComponent {
+  sections: String[] = [];
+  sectionToAdd: String = "";
 
+  constructor() {
+    this.loadFromLocalStorage();
+  }
+
+  addSection() {
+    this.sections.push(this.sectionToAdd);
+    this.saveToLocalStorage();
+  }
+
+  private saveToLocalStorage(): void {
+    localStorage.setItem('sections', JSON.stringify(this.sections));
+  }
+
+  private loadFromLocalStorage(): void {
+    const savedSections = localStorage.getItem('sections');
+    if (savedSections) {
+      this.sections = JSON.parse(savedSections);
+    }
+  }
 }
