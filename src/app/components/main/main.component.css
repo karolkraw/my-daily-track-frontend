@@ -5,7 +5,7 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
   background-color: #f4f4f4;
   display: flex;
   justify-content: center;
@@ -18,10 +18,10 @@ body {
   flex-direction: column;
   align-items: flex-end;
   max-width: 1200px;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  background-color: #f9f9f9;
+  border-radius: 15px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .empty {
@@ -35,41 +35,41 @@ body {
 
 .add-section {
   width: 100%;
-  max-width: 200px;
-  padding: 5px;
+  max-width: 250px;
+  padding: 10px;
   background-color: #fff;
-  border-radius: 5px;
+  border-radius: 10px;
   margin-left: auto;
-  margin-right: 43px;
+  margin-right: 30px;
   display: flex;
   transition: background-color 0.3s ease;
 }
 
 .add-section input {
-  width: 150px;
-  padding: 8px;
-  margin-right: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #e0e0e0;
+  width: 160px;
+  padding: 10px;
+  margin-right: 10px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  background-color: #f0f0f0;
   font-size: 15px;
   color: #333;
   text-align: left;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
   transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 .add-section input:focus {
-  border-color: #007bff;
-  background-color: #f9f9f9;
+  border-color: #28a745;
+  background-color: #fafafa;
   outline: none;
 }
 
 .add-section button {
-  padding: 8px 16px;
+  padding: 10px 20px;
   border: none;
-  border-radius: 4px;
-  background-color: #007bff;
+  border-radius: 6px;
+  background-color: #4bcd5d;
   color: #fff;
   font-size: 16px;
   cursor: pointer;
@@ -77,50 +77,67 @@ body {
 }
 
 .add-section button:hover {
-  background-color: #0056b3;
+  background-color: #32a44f;
 }
 
 .sections-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
+  gap: 25px;
   max-width: 1200px;
   padding: 20px;
   background-color: #fff;
-  border-radius: 10px;  
+  border-radius: 15px;
 }
 
 .section {
-  width: 300px;
-  height: 150px;
+  width: 320px;
+  height: 170px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #e0e0e0;
-  border: 2px solid #333;
-  border-radius: 5px;
+  border-radius: 10px;
   text-align: center;
-  padding: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease;
+  padding: 15px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.section:nth-child(odd) {
+  background-color: #7ddb80;
+  border: 2px solid #388e3c;
+}
+
+.section:nth-child(even) {
+  background-color: #03a9f4;
+  border: 2px solid #0288d1;
 }
 
 .section:hover {
-  background-color: #d1d1d1;
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   cursor: pointer;
+}
+
+.section:nth-child(odd):hover {
+  background-color: #64c869;
+}
+
+.section:nth-child(even):hover {
+  background-color: #039be5;
 }
 
 @media (max-width: 768px) {
   .section {
     width: 100%;
   }
-  
+
   .add-section {
     width: 100%;
   }
-  
+
   .add-section input {
-    width: calc(100% - 22px);
+    width: calc(100% - 30px);
   }
 }
