@@ -1,0 +1,73 @@
+/* Center the content */
+.streak-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 20px; /* Space between streaks */
+}
+
+.streak-box {
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 300px;
+}
+
+.streak-days {
+  font-size: 48px;
+  font-weight: bold;
+  color: #4caf50;
+}
+
+.streak-date {
+  font-size: 16px;
+  color: #555;
+  margin-top: 10px;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 24px;
+  color: #888;
+}
+
+.no-streak-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 24px;
+  color: #888;
+}
+
+/* Form for adding streak */
+.add-streak-form {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.add-streak-form input {
+  margin: 10px;
+  padding: 5px;
+  font-size: 16px;
+}
+
+.add-streak-form button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-streak-form button:hover {
+  background-color: #45a049;
+}
