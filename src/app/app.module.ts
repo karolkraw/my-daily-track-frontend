@@ -1,28 +1,33 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms'; // Import FormsModule here
+import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { MainComponent } from './components/main/main.component';
 import { SectionComponent } from './components/section/section.component';
+import { SectionAreaComponent } from './components/section-area/section-area.component';
+import { StreakComponent } from './components/streak/streak.component';
 
 const routes: Routes = [
-  { path: '', component: MainComponent }, // Main component displayed at "/"
-  { path: 'section/:id', component: SectionComponent }, // Section component displayed at "/section/:id"
-  { path: '**', redirectTo: '' } // Redirect unknown routes to the main component
+  { path: '', component: SectionComponent },
+  { path: 'section/:name', component: SectionAreaComponent },
+  { path: 'section/:name/streak', component: StreakComponent },
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainComponent,
-    SectionComponent
+    SectionComponent,
+    SectionAreaComponent,
+    StreakComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
