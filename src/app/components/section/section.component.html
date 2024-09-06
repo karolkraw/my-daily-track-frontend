@@ -1,4 +1,9 @@
-<div class="section-detail">
-  <h1>Section Details for ID: {{ sectionId }}</h1>
-  <!-- Display section details here -->
-</div>
+<body>
+  <div class="sections-container">
+    <div *ngFor="let section of sections" 
+    class="section" 
+    (click)="viewSection(section.id)">
+      <h2>{{ section.name }}</h2>
+    </div>
+  </div>
+</body>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { Section } from '../../models/section.model'; // Adjust path as needed
+import { Section } from '../../models/section.model';
 
 @Component({
   selector: 'app-section',
@@ -9,14 +10,19 @@ import { Section } from '../../models/section.model'; // Adjust path as needed
 })
 export class SectionComponent implements OnInit {
   sectionId!: number;
-  section!: Section; // Define a section variable
+  sections: Section[] = [{id: 1, name: "Streak"}, {id: 2, name: "Reflections"}, {id: 3, name: "Ideas"}, 
+                         {id: 4, name: "Goals"}, {id: 5, name: "To Do"}, {id: 6, name: "Planner"},];
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.sectionId = +params.get('id')!;
-      // Fetch section details based on ID and assign to this.section
     });
   }
+
+  viewSection(id: number) {
+    this.router.navigate(['/section', id]);
+  }
+
 }
