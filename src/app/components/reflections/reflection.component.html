@@ -1,7 +1,7 @@
 <div class="app-container">
   <div class="reflection-container">
     <h2>Reflections for {{currentDate}}</h2>
-    <textarea [(ngModel)]="currentReflectionContent" rows="10" placeholder="Write your reflections..."
+    <textarea [(ngModel)]="textAreaContent" rows="10" placeholder="Write your reflections..."
       [readonly]="!isCurrentDate()"></textarea>
     <button (click)="saveReflection()" [disabled]="!isCurrentDate() || contentEmpty()">Save</button>
   </div>
@@ -9,7 +9,7 @@
   <div class="sidebar" (scroll)="onScroll($event)">
     <h3>Previous Reflections</h3>
     <ul>
-      <li *ngFor="let reflection of previousReflections">
+      <li *ngFor="let reflection of historyReflections">
         <a href="#" (click)="getReflectionByDate(reflection.created); $event.preventDefault()"
            [class.active]="reflection.created === currentDate">{{reflection.created}}</a>
       </li>
