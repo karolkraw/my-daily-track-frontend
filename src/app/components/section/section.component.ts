@@ -1,28 +1,51 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
 import { Section } from '../../models/section.model';
+import { SectionService } from '../../services/section/section.service';
 
 @Component({
-  selector: 'app-section',
+  selector: 'app-main',
   templateUrl: './section.component.html',
-  styleUrls: ['./section.component.css']
+  styleUrl: './section.component.css'
 })
 export class SectionComponent implements OnInit {
-  sectionId!: number;
-  sections: Section[] = [{id: 1, name: "Streak"}, {id: 2, name: "Reflections"}, {id: 3, name: "Ideas"}, 
-                         {id: 4, name: "Goals"}, {id: 5, name: "To Do"}, {id: 6, name: "Planner"},];
+  sections: Section[] = [];
+  sectionToAdd: String = "";
+  nextId: number = 1;
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(private sectionService: SectionService, private router: Router) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      this.sectionId = +params.get('id')!;
-    });
+    this.loadSections()
   }
 
-  viewSection(id: number) {
-    this.router.navigate(['/section', id]);
+  loadSections() {
+    this.sectionService.getSections().subscribe(
+      (data: Section[]) => {
+        this.sections = data;
+      },
+      error => {
+        console.error('Error fetching sections data', error);
+      }
+    );
   }
 
+  addSection() {
+    const newSectionName = this.sectionToAdd.trim();
+    if (newSectionName) {
+        this.sectionService.addSection({ name: newSectionName }).subscribe(
+          (data: Section) => {
+            this.sections.push(data);
+          },
+          error => {
+              console.error('Error adding section', error);
+          }
+        );
+        this.sectionToAdd = '';
+    }
+  }
+
+  viewSection(name: string) {
+    this.router.navigate(['/section', name]);
+  }
 }

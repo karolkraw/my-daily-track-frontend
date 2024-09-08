@@ -5,7 +5,7 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
   background-color: #f4f4f4;
   display: flex;
   justify-content: center;
@@ -13,29 +13,95 @@ body {
   min-height: 100vh;
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  max-width: 1200px;
+  padding: 30px;
+  background-color: #f9f9f9;
+  border-radius: 15px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  max-width: 1200px;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.add-section {
+  width: 100%;
+  max-width: 250px;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 10px;
+  margin-left: auto;
+  margin-right: 30px;
+  display: flex;
+  transition: background-color 0.3s ease;
+}
+
+.add-section input {
+  width: 160px;
+  padding: 10px;
+  margin-right: 10px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  background-color: #f0f0f0;
+  font-size: 15px;
+  color: #333;
+  text-align: left;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.add-section input:focus {
+  border-color: #28a745;
+  background-color: #fafafa;
+  outline: none;
+}
+
+.add-section button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  background-color: #4bcd5d;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-section button:hover {
+  background-color: #32a44f;
+}
+
 .sections-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
+  gap: 25px;
   max-width: 1200px;
   padding: 20px;
   background-color: #fff;
-  border-radius: 10px;
+  border-radius: 15px;
 }
 
 .section {
-  width: 300px;
-  height: 150px;
+  width: 320px;
+  height: 170px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
+  border-radius: 10px;
   text-align: center;
-  padding: 10px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
+  padding: 15px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .section:nth-child(odd) {
@@ -51,6 +117,7 @@ body {
 .section:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 }
 
 .section:nth-child(odd):hover {
@@ -64,5 +131,13 @@ body {
 @media (max-width: 768px) {
   .section {
     width: 100%;
+  }
+
+  .add-section {
+    width: 100%;
+  }
+
+  .add-section input {
+    width: calc(100% - 30px);
   }
 }
