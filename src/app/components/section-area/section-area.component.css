@@ -1,0 +1,68 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.areas-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  max-width: 1200px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+.area {
+  width: 300px;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  text-align: center;
+  padding: 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.area:nth-child(odd) {
+  background-color: #7ddb80;
+  border: 2px solid #388e3c;
+}
+
+.area:nth-child(even) {
+  background-color: #03a9f4;
+  border: 2px solid #0288d1;
+}
+
+.area:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.area:nth-child(odd):hover {
+  background-color: #64c869;
+}
+
+.area:nth-child(even):hover {
+  background-color: #039be5;
+}
+
+@media (max-width: 768px) {
+  .area {
+    width: 100%;
+  }
+}

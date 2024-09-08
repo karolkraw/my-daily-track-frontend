@@ -1,0 +1,11 @@
+<body>
+  <div class="areas-container">
+    <div *ngFor="let area of areas" 
+    class="area" 
+    (click)="viewArea(area.name)">
+      <h2>{{ area.name }}</h2>
+    </div>
+  </div>
+</body>
+
+
