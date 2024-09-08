@@ -1,25 +1,51 @@
-/* Center the content */
 .streak-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  gap: 20px; /* Space between streaks */
+  gap: 20px;
 }
 
 .streak-box {
+  position: relative; /* To position the delete button absolutely */
   background-color: #f5f5f5;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 300px;
+  overflow: hidden; /* Ensure button doesn't overflow */
+}
+
+.delete-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #c42424;
+  border: none;
+  color: white;
+  font-size: 20px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0.3s ease;
+}
+
+.streak-box:hover .delete-button {
+  opacity: 1; /* Visible on hover */
 }
 
 .streak-days {
   font-size: 48px;
   font-weight: bold;
   color: #4caf50;
+}
+
+.streak-name {
+  font-size: 24px;
+  color: #333;
+  margin-top: 5px;
 }
 
 .streak-date {
@@ -41,7 +67,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 50vh;
   font-size: 24px;
   color: #888;
 }

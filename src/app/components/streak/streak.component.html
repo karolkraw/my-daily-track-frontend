@@ -1,24 +1,26 @@
+<div class="add-streak-form">
+  <h3>Add a New Streak</h3>
+  
+  <input type="text" [(ngModel)]="newStreakName" placeholder="Streak Name" />
+  <button (click)="createStreak()">Create Streak</button>
+</div>
+
 <div class="streak-container" *ngIf="!loading && streaks.length > 0">
   <div *ngFor="let streak of streaks" class="streak-box">
+    <button class="delete-button" (click)="deleteStreak(streak.name)">
+      &times;
+    </button>
     <div class="streak-days">{{ streak.days }} days</div>
+    <div class="streak-name">{{ streak.name }}</div>
     <div class="streak-date">Started on: {{ streak.startDate | date }}</div>
   </div>
 </div>
 
-<!-- Optional loading spinner -->
+
 <div *ngIf="loading" class="loading-container">
   Loading streak data...
 </div>
 
-<!-- In case no streak data is available -->
 <div *ngIf="!loading && streaks.length === 0" class="no-streak-container">
   No streak data available.
-</div>
-
-<!-- Form to add a new streak -->
-<div class="add-streak-form">
-  <h3>Add a New Streak</h3>
-  <input type="number" [(ngModel)]="newStreakDays" placeholder="Number of days" min="1" />
-  <input type="date" [(ngModel)]="newStreakStartDate" placeholder="Start Date" />
-  <button (click)="addStreak()">Add Streak</button>
 </div>

@@ -9,24 +9,18 @@ import { Streak } from '../../models/streak.model';
   styleUrls: ['./streak.component.css']
 })
 export class StreakComponent implements OnInit {
-  streaks: Streak[] = [];  // Array to hold multiple streaks
+  streaks: Streak[] = [];
   sectionName!: string;
-  newStreakName: string = '';  // Bind this to input for the streak's name
-  newStreakDays: number = 0;  // Bind this to the input for streak days
-  newStreakStartDate: string = new Date().toISOString().split('T')[0];  // Default to current date, but allow selection
+  newStreakName: string = '';
   loading = false;
 
   constructor(private streakService: StreakService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    // Extract section name from the route parameters
     this.sectionName = this.route.snapshot.paramMap.get('name') || '';
-
-    // Load existing streaks from service
     this.loadStreaks();
   }
 
-  // Method to fetch existing streaks
   loadStreaks(): void {
     this.loading = true;
     this.streakService.getStreaks(this.sectionName).subscribe(
@@ -41,27 +35,43 @@ export class StreakComponent implements OnInit {
     );
   }
 
-  // Method to add a new streak
-  addStreak(): void {
-    if (this.newStreakName && this.newStreakDays > 0) {
+  createStreak(): void {
+    if (this.newStreakName) {
+      const today = new Date().toISOString().split('T')[0];
+
       const newStreak: Streak = {
         name: this.newStreakName,
-        days: this.newStreakDays,
-        startDate: this.newStreakStartDate
+        days: 1,
+        startDate: today
       };
 
-      // Add the new streak to the streaks array
-      this.streaks.push(newStreak);
-
-      // Optionally, you could call a backend service to save the new streak as well
-      // this.streakService.addStreak(newStreak).subscribe();
-
-      // Reset form fields after adding
+      this.streakService.createStreak(newStreak, this.sectionName).subscribe(
+        (data: Streak) => {
+          this.streaks.push(data);
+          this.loading = false;
+          this.newStreakName = '';
+        },
+        error => {
+          console.error('Error creating streak', error);
+          this.loading = false;
+        }
+      );   
       this.newStreakName = '';
-      this.newStreakDays = 0;
-      this.newStreakStartDate = new Date().toISOString().split('T')[0];  // Reset to current date
     } else {
-      console.error('Please enter valid streak details.');
+      console.error('Please enter a valid streak name.');
     }
+  }
+
+  deleteStreak(name: string): void {
+    this.streakService.deleteStreak(name).subscribe(
+      () => {
+        this.streaks = this.streaks.filter(streak => streak.name !== name);
+        this.loading = false;
+      },
+      error => {
+        console.error('Error dele streak', error);
+        this.loading = false;
+      }
+    );
   }
 }
