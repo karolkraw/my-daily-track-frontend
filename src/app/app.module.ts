@@ -4,11 +4,18 @@ import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
+
 import { AppComponent } from './app.component';
 import { SectionComponent } from './components/section/section.component';
 import { SectionAreaComponent } from './components/section-area/section-area.component';
 import { StreakComponent } from './components/streak/streak.component';
 import { ReflectionComponent } from './components/reflections/reflection.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 
 const routes: Routes = [
@@ -26,15 +33,22 @@ const routes: Routes = [
     SectionComponent,
     SectionAreaComponent,
     StreakComponent,
-    ReflectionComponent
+    ReflectionComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     RouterModule.forRoot(routes),
     HttpClientModule,
+    BrowserAnimationsModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatNativeDateModule,
   ],
-  providers: [],
+  providers: [
+    provideAnimationsAsync()
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
