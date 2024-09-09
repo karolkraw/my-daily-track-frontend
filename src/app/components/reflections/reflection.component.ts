@@ -3,35 +3,44 @@ import { ReflectionService } from '../../services/reflections/reflection.service
 import { format } from 'date-fns';
 import { ActivatedRoute } from '@angular/router';
 import { Reflection } from '../../models/reflection.model';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
   selector: 'app-reflection',
   templateUrl: './reflection.component.html',
-  styleUrls: ['./reflection.component.css']
+  styleUrls: ['./reflection.component.css'],
+  providers: [DatePipe],
 })
 export class ReflectionComponent implements OnInit {
   sectionName!: string;
-  currentDate: string = '';
-  currentReflectionContent: string = '';
+  currentDate: string = ''; // Formatted as YYYY-MM-DD
+  textAreaContent: string = '';
+  currentReflection: Reflection | null = null;
+  historyReflections: Reflection[] = [];
+  nextReflections: Reflection[] = [];
   previousReflections: Reflection[] = [];
+  searchDate: Date | null = null;
+  limit = 5;
+  lastFetchedDate: string | null = null; // Track last fetched date for batching
   reflectionCount: number = 0;
   currentPage = 0;
+  today: Date = new Date();
 
-  constructor(private reflectionService: ReflectionService, private route: ActivatedRoute) {}
+  constructor(private reflectionService: ReflectionService, private route: ActivatedRoute, private datePipe: DatePipe) {}
 
   async ngOnInit(): Promise<void> {
     this.sectionName = this.route.snapshot.paramMap.get('name') || '';
-    this.currentDate = this.getDisplayDate();
+    this.currentDate = this.getFormattedCurrentDate();
     await this.loadCurrentReflection();
     this.loadInitialData();
   }
 
-  getDisplayDate(): string {
+  getFormattedCurrentDate(): string {
     const now = new Date();
     const hours = now.getHours();
-  
-    // If the time is before 2 a.m., use the previous day, otherwise use the current day (so I can edit after midnight)
+
+    // If the time is before 2 a.m., use the previous day, otherwise use the current day
     if (hours < 2) {
       now.setDate(now.getDate() - 1);
     }
@@ -39,76 +48,14 @@ export class ReflectionComponent implements OnInit {
   }
 
   formatDate(date: Date): string {
-    return format(date, 'dd-MM-yyyy');
+    return format(date, 'dd-MM-yyyy'); // Use YYYY-MM-DD format for date input
   }
 
-  async loadCurrentReflection(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      this.reflectionService.getReflectionByDate(this.sectionName, this.currentDate).subscribe(currentReflection => {
-        if (currentReflection) {
-          this.currentReflectionContent = currentReflection.content;
-        }
-        resolve(); // Resolve after the HTTP call completes
-      }, reject); // Reject in case of an error
-    });
-}
-
-   loadInitialData(): void {
-    this.reflectionService.getReflectionCount(this.sectionName).subscribe(reflectionCount => {
-      this.reflectionCount = reflectionCount;
-    });
-
-    this.reflectionService.getReflections(this.sectionName, 0, 10).subscribe(reflections => {
-      this.currentPage++;
-      this.previousReflections = reflections.filter(reflection => reflection.created !== this.formatDate(new Date()))
-    });
-  }
-
-  saveReflection() {
-    this.reflectionService.saveReflection(this.sectionName, this.currentDate, this.currentReflectionContent!).subscribe(reflection => {
-      this.currentReflectionContent = reflection.content;
-    });
-  }
-
-  getReflectionByDate(created: string) {
-    this.currentDate = created;
-    this.currentReflectionContent = this.previousReflections?.find(a => a.created === created)?.content || '';
-  }
-
- /*  loadMoreReflections(): void {
-    if (this.loading || this.previousReflections.length >= this.totalReflections) {
-      return;
-    }
-
-    this.loading = true;
-    this.reflectionService.getPreviousDates(this.currentPage).subscribe(newDates => {
-      this.previousDates = [...this.previousDates, ...newDates];
-      this.currentPage++;
-      this.loading = false;
-    });
-  } */
-
-  onScroll(event: any) {
-    if (!this.canLoadMore()) {
-      return;
-    }
-    const element = event.target;
-    const atBottom = element.scrollHeight - element.scrollTop <= element.clientHeight + 1;
-  
-    if (atBottom) {
-      this.currentPage++;
-      this.loadPreviousReflections();
-    }
-  }
-
-  loadPreviousReflections() {
-    this.reflectionService.getReflections(this.sectionName, this.currentPage, 5).subscribe(newReflections => {
-      this.previousReflections = [...this.previousReflections, ...newReflections];
-    });
-  }
-
-  canLoadMore() {
-    return this.previousReflections.length !== 0 && this.previousReflections.length < this.reflectionCount - 1;
+  isActiveDate(reflectionDate: string): boolean {
+    // Convert reflectionDate to Date object
+    const reflectionDateObj = new Date(reflectionDate);
+    // Compare reflectionDate with currentDate
+    return this.formatDate(new Date()) === this.formatDate(reflectionDateObj);
   }
 
   isCurrentDate(): boolean {
@@ -116,7 +63,144 @@ export class ReflectionComponent implements OnInit {
     return this.currentDate === today;
   }
 
+  onDateChange(event: any): void {
+    const formattedDate = this.datePipe.transform(event.value, 'dd/MM/yyyy');
+    this.searchDate = event.value ? new Date(formattedDate || '') : null;
+  }
+
+  async loadCurrentReflection(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const formattedDate = this.currentDate;
+      this.reflectionService.getReflectionByDate(this.sectionName, formattedDate).subscribe(currentReflection => {
+        if (currentReflection) {
+          this.textAreaContent = currentReflection.content;
+          this.currentReflection = currentReflection;
+        }
+        resolve(); // Resolve after the HTTP call completes
+      }, reject); // Reject in case of an error
+    });
+  }
+
+  loadInitialData(): void {
+    this.reflectionService.getReflectionCount(this.sectionName).subscribe(reflectionCount => {
+      this.reflectionCount = reflectionCount;
+    });
+
+    this.reflectionService.getReflections(this.sectionName, 0, 10).subscribe(reflections => {
+      this.currentPage++;
+      this.historyReflections = reflections;
+    });
+  }
+
+  saveReflection() {
+    const formattedDate = this.currentDate;
+    this.reflectionService.saveReflection(this.sectionName, formattedDate, this.textAreaContent!).subscribe(reflection => {
+      this.textAreaContent = reflection.content;
+    });
+  }
+
+  getReflectionByDate(created: string) {
+    this.currentDate = this.formatDate(new Date(created));
+    this.textAreaContent = this.historyReflections.find(a => a.created === created)?.content || '';
+  }
+
+  onScroll(event: any) {
+    if (!this.canLoadMore()) {
+      return;
+    }
+    const element = event.target;
+    const atBottom = element.scrollHeight - element.scrollTop <= element.clientHeight + 1;
+
+    if (atBottom) {
+      this.currentPage++;
+      this.loadHistoryReflections();
+    }
+  }
+
+  loadHistoryReflections() {
+    this.reflectionService.getReflections(this.sectionName, this.currentPage, 5).subscribe(newReflections => {
+      this.historyReflections = [...this.historyReflections, ...newReflections];
+    });
+  }
+
+  canLoadMore() {
+    return this.historyReflections.length !== 0 && this.historyReflections.length < this.reflectionCount - 1;
+  }
+
   contentEmpty(): boolean {
-    return this.currentReflectionContent.trim() === ""
+    return this.textAreaContent.trim() === "";
+  }
+
+  searchReflection(): void {
+    this.reflectionService.getReflectionByDateSearch(this.sectionName, this.formatDate(this.searchDate!)).subscribe(
+      reflection => {
+        this.currentReflection = reflection;
+        this.currentDate = this.formatDate(new Date(this.searchDate!));
+        //this.searchDate = this.currentDate;
+        this.loadNextBatch();
+        this.loadPreviousBatch();
+      },
+      error => {
+        console.error('No reflection found for this date');
+      }
+    );
+  }
+
+  loadNextBatch(): void {
+    if (this.currentReflection) {
+      this.lastFetchedDate = this.currentReflection.created;
+      this.reflectionService.getNextBatch(this.sectionName, this.lastFetchedDate, this.limit).subscribe(
+        reflections => {
+          if (reflections.length) {
+            this.nextReflections = reflections;
+            console.log("nextReflections after BATCH: ");
+            this.nextReflections.forEach(a => console.log(a.created));
+          } else {
+            console.log('No more next reflections available');
+          }
+        }
+      );
+    }
+  }
+
+  loadPreviousBatch(): void {
+    if (this.currentReflection) {
+      this.lastFetchedDate = this.currentReflection.created;
+      this.reflectionService.getPreviousBatch(this.sectionName, this.lastFetchedDate, this.limit).subscribe(
+        reflections => {
+          if (reflections.length) {
+            this.previousReflections = reflections;
+            console.log("previousReflections after BATCH: ")
+            this.previousReflections.forEach(a => console.log(a.created))
+          } else {
+            console.log('No more previous reflections available');
+          }
+        }
+      );
+    }
+  }
+
+  onNextClick(): void {
+    if (this.nextReflections.length > 0) {
+      this.previousReflections.unshift(this.currentReflection!); // Save current reflection to previous
+      this.currentReflection = this.nextReflections.shift()!;
+      if (this.nextReflections.length === 0) {
+        this.loadNextBatch();
+      }
+    } else {
+      console.log('No more next reflections available');
+    }
+  }
+
+  onPreviousClick(): void {
+    if (this.previousReflections.length > 0) {
+      this.nextReflections.unshift(this.currentReflection!); // Save current reflection to next
+      this.currentReflection = this.previousReflections.shift()!;
+      if (this.previousReflections.length === 0) {
+        this.loadPreviousBatch();
+      }
+    } else {
+      console.log('No more previous reflections available');
+    }
   }
 }
