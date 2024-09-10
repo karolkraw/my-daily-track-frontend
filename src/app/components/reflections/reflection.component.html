@@ -1,44 +1,46 @@
 <div class="app-container">
   <div class="reflection-container">
-    <!-- Search Bar -->
-    <div class="search-container">
-      <div>
-        <mat-form-field appearance="fill">
-          <mat-label>Select a date</mat-label>
-          <input matInput [matDatepicker]="picker" [(ngModel)]="searchDate" 
-          (dateChange)="onDateChange($event)" 
-          [max]="today" placeholder="Choose a date">          
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
+
+    <div class="reflection-header-container">
+      <div class="title">
+        <h2>Reflections for {{currentDate}}</h2>
       </div>
-    
+      <div class="right-header-container">
+        <div class=go-to-button>
+          <button (click)="goToCurrent()" [disabled]="previousReflections.length">Go to current</button>
+        </div>
+        <div class="search-container">
+          <div>
+            <mat-form-field appearance="fill">
+              <input matInput [matDatepicker]="picker" [(ngModel)]="searchDate" (dateChange)="onDateChange($event)"
+                [max]="today" placeholder="Select a date" style="
+                width: 150px;">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Current Reflection Display -->
-    <div *ngIf="currentReflection">
-      <h2>Current Reflection</h2>
-      <p>{{ currentReflection.created }}</p>
-      <button (click)="onPreviousClick()" [disabled]="!previousReflections.length">Previous</button>
-      <button (click)="onNextClick()" [disabled]="!nextReflections.length">Next</button>
-    </div>
-
-    <!-- Reflection Editing -->
-    <div class="reflection-edit-container">
-      <h2>Reflections for {{currentDate}}</h2>
-      <textarea [(ngModel)]="textAreaContent" rows="10" placeholder="Write your reflections..."
-        [readonly]="!isCurrentDate()"></textarea>
+    <textarea [(ngModel)]="textAreaContent" rows="10" placeholder="Write your reflections..."
+      [readonly]="!isCurrentDate()"></textarea>
+    <div class="reflection-footer-container">
       <button (click)="saveReflection()" [disabled]="!isCurrentDate() || contentEmpty()">Save</button>
+      <div class="next-previous-button-container">
+        <button (click)="onPreviousClick()">Previous</button>
+        <button (click)="onNextClick()">Next</button>
+      </div>
     </div>
+    
   </div>
 
-  <!-- Sidebar for Previous Reflections -->
   <div class="sidebar" (scroll)="onScroll($event)">
     <h3>Previous Reflections</h3>
     <ul>
       <li *ngFor="let reflection of historyReflections">
         <a href="#" (click)="getReflectionByDate(reflection.created); $event.preventDefault()"
-           [class.active]="reflection.created === currentDate">{{reflection.created}}</a>
+          [class.active]="reflection.created === currentDate">{{reflection.created}}</a>
       </li>
     </ul>
     <div *ngIf="canLoadMore()" class="loading">Loading more reflections...</div>

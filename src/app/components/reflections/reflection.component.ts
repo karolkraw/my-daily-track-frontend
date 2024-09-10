@@ -44,11 +44,12 @@ export class ReflectionComponent implements OnInit {
     if (hours < 2) {
       now.setDate(now.getDate() - 1);
     }
+  
     return this.formatDate(now);
   }
 
   formatDate(date: Date): string {
-    return format(date, 'dd-MM-yyyy'); // Use YYYY-MM-DD format for date input
+    return format(date, 'dd-MM-yyyy');
   }
 
   isActiveDate(reflectionDate: string): boolean {
@@ -100,7 +101,8 @@ export class ReflectionComponent implements OnInit {
   }
 
   getReflectionByDate(created: string) {
-    this.currentDate = this.formatDate(new Date(created));
+    //this.currentDate = this.formatDate(new Date(created));
+    this.currentDate = created;
     this.textAreaContent = this.historyReflections.find(a => a.created === created)?.content || '';
   }
 
@@ -153,8 +155,6 @@ export class ReflectionComponent implements OnInit {
         reflections => {
           if (reflections.length) {
             this.nextReflections = reflections;
-            console.log("nextReflections after BATCH: ");
-            this.nextReflections.forEach(a => console.log(a.created));
           } else {
             console.log('No more next reflections available');
           }
@@ -170,8 +170,6 @@ export class ReflectionComponent implements OnInit {
         reflections => {
           if (reflections.length) {
             this.previousReflections = reflections;
-            console.log("previousReflections after BATCH: ")
-            this.previousReflections.forEach(a => console.log(a.created))
           } else {
             console.log('No more previous reflections available');
           }
@@ -202,5 +200,9 @@ export class ReflectionComponent implements OnInit {
     } else {
       console.log('No more previous reflections available');
     }
+  }
+
+  goToCurrent(): void {
+    this.currentDate = this.getFormattedCurrentDate();
   }
 }

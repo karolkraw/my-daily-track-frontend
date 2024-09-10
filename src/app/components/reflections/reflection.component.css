@@ -12,27 +12,35 @@
   background-color: #f9f9f9;
 }
 
-.search-container {
-  margin-bottom: 20px;
+.reflection-container h2 {
+  font-size: 26px;
+  margin-bottom: 10px;
+  text-align: center;
+  color: #333;
 }
 
-.search-container input {
-  width: calc(100% - 120px);
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-  outline: none;
-  transition: border-color 0.3s ease;
+.reflection-header-container {
+  display:flex;
 }
 
-.search-container input:focus {
-  border-color: #007bff;
+.title {
+  flex: 1;
+  margin-bottom: 0px;
+  margin-top: auto;
+  padding-top: 15px;
 }
 
-.search-container button {
+.right-header-container {
+  display: flex;
+  margin-left: auto;
+  margin-right: 40px;
+}
+
+.go-to-button button {
+  margin-top: 17px;
+  margin-right: 10px;
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #f0990c;
   color: white;
   border: none;
   border-radius: 5px;
@@ -41,15 +49,25 @@
   transition: background-color 0.3s ease;
 }
 
-.search-container button:hover {
-  background-color: #0056b3;
+.go-to-button button:hover {
+  background-color: #f47a10;
 }
 
-.reflection-edit-container h2 {
-  font-size: 24px;
-  margin-bottom: 10px;
-  text-align: center;
-  color: #333;
+.go-to-button button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+.search-container {
+  margin-bottom: 0px;
+}
+
+.search-container input:focus {
+  border-color: #007bff;
+}
+
+.search-container button:hover {
+  background-color: #0056b3;
 }
 
 textarea {
@@ -73,9 +91,19 @@ textarea[readonly] {
   color: #888;
 }
 
-button {
+.reflection-footer-container {
+  display: flex;
+  padding-right: 20px;
+  justify-content: space-between;
+}
+
+.next-previous-button-container {
+  margin-right: 5px;
+}
+
+.next-previous-button-container button {
   margin-top: 10px;
-  margin-left: 5px;
+  margin-right: 5x;
   padding: 10px 20px;
   background-color: #007bff;
   color: white;
@@ -86,11 +114,11 @@ button {
   transition: background-color 0.3s ease;
 }
 
-button:hover {
+.next-previous-button-container button:hover {
   background-color: #0056b3;
 }
 
-button:disabled {
+.next-previous-button-container button:disabled {
   background-color: #ddd;
   cursor: not-allowed;
 }
@@ -152,3 +180,33 @@ button:disabled {
   color: #888;
   margin-top: 10px;
 }
+
+button {
+  margin-top: 10px;
+  margin-left: 5px;
+  padding: 10px 20px;
+  background-color: #59d857;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #2bae3c;
+}
+
+button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+
+
+
+
+
+
+
