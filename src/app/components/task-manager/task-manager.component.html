@@ -1,0 +1,60 @@
+<div class="task-container">
+  <!-- Add Task Section -->
+  <div class="add-task-section">
+    <input [(ngModel)]="newTaskTitle" placeholder="Add a new task" class="task-input" />
+    <button (click)="addTask()">Add Task</button>
+  </div>
+
+  <!-- Task List Section -->
+  <h3>Task List</h3>
+  <div class="task-list">
+    <div *ngFor="let task of tasks; let i = index" class="task-card">
+      <!-- Edit task title inline -->
+      <div class="task-header">
+        <span *ngIf="!task.isEditing" [class.completed]="task.completed">{{ task.title }}</span>
+        <input *ngIf="task.isEditing" [(ngModel)]="task.title" class="task-edit-input" />
+
+        <div class="task-actions">
+          <button *ngIf="!task.isEditing" (click)="editTask(i)">Edit</button>
+          <button *ngIf="task.isEditing" (click)="saveTask(i)">Save</button>
+          <button (click)="deleteTask(i)">Delete</button>
+          <button (click)="completeTask(i)">
+            {{ task.completed ? "Uncomplete" : "Complete" }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Subtasks for each task -->
+      <div *ngIf="task.subtasks.length > 0" class="subtask-list">
+        <h5>Subtasks:</h5>
+        <ul>
+          <li *ngFor="let subtask of task.subtasks; let j = index">
+            <input
+              type="checkbox"
+              [(ngModel)]="subtask.completed"
+              class="subtask-checkbox"
+            />
+            <input [(ngModel)]="subtask.title" class="subtask-input" />
+            <button (click)="removeSubtask(i, j)">Remove</button>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Add subtasks to each task -->
+      <div class="add-subtask-section">
+        <input
+          [(ngModel)]="task.newSubtaskTitle"
+          placeholder="Add Subtask"
+          class="subtask-input"
+        />
+        <button (click)="addSubtaskToTask(i)">Add Subtask</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Completed Tasks Section -->
+  <h3>Completed Tasks</h3>
+  <div *ngFor="let task of completedTasks" class="task-card completed-task">
+    <span>{{ task.title }}</span>
+  </div>
+</div>
