@@ -17,9 +17,11 @@ import { SectionAreaComponent } from './components/section-area/section-area.com
 import { StreakComponent } from './components/streak/streak.component';
 import { ReflectionComponent } from './components/reflections/reflection.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { TaskManagerComponent } from './components/task-manager/task-manager.component';
 
 
 const routes: Routes = [
+  { path: 'goals', component: TaskManagerComponent },
   { path: '', component: SectionComponent },
   { path: 'section/:name', component: SectionAreaComponent },
   { path: 'section/:name/streak', component: StreakComponent },
@@ -35,6 +37,7 @@ const routes: Routes = [
     SectionAreaComponent,
     StreakComponent,
     ReflectionComponent,
+    TaskManagerComponent,
   ],
   imports: [
     BrowserModule,
