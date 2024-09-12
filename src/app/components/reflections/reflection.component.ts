@@ -4,17 +4,34 @@ import { format } from 'date-fns';
 import { ActivatedRoute } from '@angular/router';
 import { Reflection } from '../../models/reflection.model';
 import { DatePipe } from '@angular/common';
+import { MatDateFormats, MAT_DATE_FORMATS } from '@angular/material/core';
+
+
+export const MY_DATE_FORMATS: MatDateFormats = {
+  parse: {
+    dateInput: 'DD/MM/YYYY', // Input format when parsing
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',  // How it shows in the input field
+    monthYearLabel: 'MMM YYYY', // Month and year at the top of the picker
+    dateA11yLabel: 'DD/MM/YYYY',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 
 @Component({
   selector: 'app-reflection',
   templateUrl: './reflection.component.html',
   styleUrls: ['./reflection.component.css'],
-  providers: [DatePipe],
+  providers: [DatePipe,
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS } // Provide custom date formats
+  ]
 })
 export class ReflectionComponent implements OnInit {
   sectionName!: string;
   currentDate: string = ''; // Formatted as YYYY-MM-DD
+  currentHistoryDate: string = ''
   textAreaContent: string = '';
   currentReflection: Reflection | null = null;
   historyReflections: Reflection[] = [];
@@ -65,8 +82,8 @@ export class ReflectionComponent implements OnInit {
   }
 
   onDateChange(event: any): void {
-    const formattedDate = this.datePipe.transform(event.value, 'dd/MM/yyyy');
-    this.searchDate = event.value ? new Date(formattedDate || '') : null;
+    this.searchDate = event.value ? event.value : null;
+    this.searchReflection();
   }
 
   async loadCurrentReflection(): Promise<void> {
@@ -91,6 +108,9 @@ export class ReflectionComponent implements OnInit {
       this.currentPage++;
       this.historyReflections = reflections;
     });
+
+    this.loadNextBatch();
+    this.loadPreviousBatch();
   }
 
   saveReflection() {
@@ -102,6 +122,7 @@ export class ReflectionComponent implements OnInit {
 
   getReflectionByDate(created: string) {
     //this.currentDate = this.formatDate(new Date(created));
+    this.currentHistoryDate = created;
     this.currentDate = created;
     this.textAreaContent = this.historyReflections.find(a => a.created === created)?.content || '';
   }
@@ -134,11 +155,14 @@ export class ReflectionComponent implements OnInit {
   }
 
   searchReflection(): void {
+    console.log(this.searchDate)
     this.reflectionService.getReflectionByDateSearch(this.sectionName, this.formatDate(this.searchDate!)).subscribe(
       reflection => {
         this.currentReflection = reflection;
         this.currentDate = this.formatDate(new Date(this.searchDate!));
         //this.searchDate = this.currentDate;
+        this.previousReflections.reduce
+        this.nextReflections.reduce
         this.loadNextBatch();
         this.loadPreviousBatch();
       },
@@ -182,6 +206,8 @@ export class ReflectionComponent implements OnInit {
     if (this.nextReflections.length > 0) {
       this.previousReflections.unshift(this.currentReflection!); // Save current reflection to previous
       this.currentReflection = this.nextReflections.shift()!;
+      this.textAreaContent = this.currentReflection.content;
+      this.currentDate = this.currentReflection.created;
       if (this.nextReflections.length === 0) {
         this.loadNextBatch();
       }
@@ -194,6 +220,8 @@ export class ReflectionComponent implements OnInit {
     if (this.previousReflections.length > 0) {
       this.nextReflections.unshift(this.currentReflection!); // Save current reflection to next
       this.currentReflection = this.previousReflections.shift()!;
+      this.textAreaContent = this.currentReflection.content;
+      this.currentDate = this.currentReflection.created;
       if (this.previousReflections.length === 0) {
         this.loadPreviousBatch();
       }
@@ -204,5 +232,6 @@ export class ReflectionComponent implements OnInit {
 
   goToCurrent(): void {
     this.currentDate = this.getFormattedCurrentDate();
+    this.loadCurrentReflection();
   }
 }

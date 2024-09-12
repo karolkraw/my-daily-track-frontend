@@ -7,7 +7,7 @@
       </div>
       <div class="right-header-container">
         <div class=go-to-button>
-          <button (click)="goToCurrent()" [disabled]="previousReflections.length">Go to current</button>
+          <button (click)="goToCurrent()">Go to current</button>
         </div>
         <div class="search-container">
           <div>
@@ -28,7 +28,7 @@
     <div class="reflection-footer-container">
       <button (click)="saveReflection()" [disabled]="!isCurrentDate() || contentEmpty()">Save</button>
       <div class="next-previous-button-container">
-        <button (click)="onPreviousClick()">Previous</button>
+        <button (click)="onPreviousClick()">Prev</button>
         <button (click)="onNextClick()">Next</button>
       </div>
     </div>
@@ -40,7 +40,7 @@
     <ul>
       <li *ngFor="let reflection of historyReflections">
         <a href="#" (click)="getReflectionByDate(reflection.created); $event.preventDefault()"
-          [class.active]="reflection.created === currentDate">{{reflection.created}}</a>
+          [class.active]="reflection.created === currentHistoryDate">{{reflection.created}}</a>
       </li>
     </ul>
     <div *ngIf="canLoadMore()" class="loading">Loading more reflections...</div>
