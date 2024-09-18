@@ -74,3 +74,41 @@ button:hover {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+
+
+
+
+
+
+
+
+
+
+.history-container {
+  padding: 20px;
+}
+
+.task-card {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.subtasks {
+  margin-top: 15px;
+}
+
+.subtasks ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.subtasks li {
+  margin-bottom: 5px;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: #888;
+}
