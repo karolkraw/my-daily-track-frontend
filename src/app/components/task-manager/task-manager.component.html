@@ -11,15 +11,15 @@
     <div *ngFor="let task of tasks; let i = index" class="task-card">
       <!-- Edit task title inline -->
       <div class="task-header">
-        <span *ngIf="!task.isEditing" [class.completed]="task.completed">{{ task.title }}</span>
-        <input *ngIf="task.isEditing" [(ngModel)]="task.title" class="task-edit-input" />
+        <span *ngIf="!isEditing" >{{ task.title }}</span>
+        <input *ngIf="isEditing" [(ngModel)]="task.title" class="task-edit-input" />
 
         <div class="task-actions">
-          <button *ngIf="!task.isEditing" (click)="editTask(i)">Edit</button>
-          <button *ngIf="task.isEditing" (click)="saveTask(i)">Save</button>
+          <button *ngIf="isEditing" (click)="editTask(i)">Edit</button>
+          <button *ngIf="isEditing" (click)="updateTask(i)">Save</button>
           <button (click)="deleteTask(i)">Delete</button>
           <button (click)="completeTask(i)">
-            {{ task.completed ? "Uncomplete" : "Complete" }}
+            {{ "Complete" }}
           </button>
         </div>
       </div>
@@ -33,6 +33,7 @@
               type="checkbox"
               [(ngModel)]="subtask.completed"
               class="subtask-checkbox"
+              (click)="completeSubtask(i, j)"
             />
             <input [(ngModel)]="subtask.title" class="subtask-input" />
             <button (click)="removeSubtask(i, j)">Remove</button>
@@ -43,7 +44,7 @@
       <!-- Add subtasks to each task -->
       <div class="add-subtask-section">
         <input
-          [(ngModel)]="task.newSubtaskTitle"
+          [(ngModel)]="newSubtaskTitle"
           placeholder="Add Subtask"
           class="subtask-input"
         />
@@ -58,3 +59,34 @@
     <span>{{ task.title }}</span>
   </div>
 </div>
+
+<div class="history-container">
+  <h1>History</h1>
+  
+  <!-- Check if there are any tasks in history -->
+  <div *ngIf="history.length === 0">
+    <p>No completed tasks to show.</p>
+  </div>
+
+  <div *ngIf="history.length > 0">
+    <div *ngFor="let task of history; let taskIndex = index" class="task-card">
+      <h2>{{ task.title }}</h2>
+      <p><strong>Description:</strong> {{ task.description }}</p>
+      <p><strong>Created Date:</strong> {{ task.createdDate }}</p>
+      <p><strong>Deadline:</strong> {{ task.deadline }}</p>
+      
+      <div class="subtasks">
+        <h3>Subtasks</h3>
+        <ul>
+          <li *ngFor="let subtask of task.subtasks">
+            <span [ngClass]="{'completed': subtask.completed}">
+              {{ subtask.title }} - {{ subtask.completed ? 'Completed' : 'Not Completed' }}
+            </span>
+          </li>
+        </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
