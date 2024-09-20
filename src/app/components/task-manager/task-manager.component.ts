@@ -3,21 +3,44 @@ import { TaskManagerService } from '../../services/task-manager/task-manager.ser
 import { ActivatedRoute } from '@angular/router';
 import { Task, Subtask } from '../../models/goal.model';
 import { format } from 'date-fns';
+import { DatePipe } from '@angular/common';
+import { MatDateFormats, MAT_DATE_FORMATS } from '@angular/material/core';
 
 
+
+export const MY_DATE_FORMATS: MatDateFormats = {
+  parse: {
+    dateInput: 'DD/MM/YYYY', // Input format when parsing
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',  // How it shows in the input field
+    monthYearLabel: 'MMM YYYY', // Month and year at the top of the picker
+    dateA11yLabel: 'DD/MM/YYYY',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   selector: 'app-task-manager',
   templateUrl: './task-manager.component.html',
   styleUrls: ['./task-manager.component.css'],
+  providers: [DatePipe,
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS } // Provide custom date formats
+  ]
 })
 export class TaskManagerComponent implements OnInit {
   sectionName!: string;
-  newTaskTitle: string = '';
   isEditing: boolean = false;
   newSubtaskTitle: string = '';
   tasks: Task[] = [];
   history: Task[] = [];
+  newTaskTitle: string = '';
+  newDescription: string = '';
+  newDeadline: string = '';
+  searchDate: Date | null = null;
+  tomorrow: Date = new Date(new Date().setDate(new Date().getDate() + 1));
+
+  activePanel: string = 'current';
 
   completedTasks: Task[] = [];
 
@@ -44,7 +67,16 @@ export class TaskManagerComponent implements OnInit {
     });
   }
 
-  addTask() {
+  onDateChange(event: any): void {
+    this.searchDate = event.value ? event.value : null;
+    //this.searchReflection();
+  }
+
+  switchPanel(panel: string) {
+    this.activePanel = panel;
+  }
+
+  createTask() {
     
     if (this.newTaskTitle.trim()) {
   
