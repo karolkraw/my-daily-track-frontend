@@ -32,15 +32,16 @@ export class TaskManagerComponent implements OnInit {
   sectionName!: string;
   isEditing: boolean = false;
   newSubtaskTitle: string = '';
-  tasks: Task[] = [];
+  currentTasks: Task[] = [];
   history: Task[] = [];
   newTaskTitle: string = '';
   newDescription: string = '';
-  newDeadline: string = '';
-  searchDate: Date | null = null;
+  newDeadline: Date | null = null;
   tomorrow: Date = new Date(new Date().setDate(new Date().getDate() + 1));
 
   activePanel: string = 'current';
+
+  newSubtask: any = { title: '', description: '', deadline: '', completed: false };
 
   completedTasks: Task[] = [];
 
@@ -54,8 +55,8 @@ export class TaskManagerComponent implements OnInit {
 
   loadActiveTasks(): void {
     this.taskManagerService.getTasks(this.sectionName).subscribe(data => {
-      this.tasks = data;
-      console.log(data)
+      this.currentTasks = data;
+      console.log("emrke")
     });
   }
 
@@ -67,32 +68,68 @@ export class TaskManagerComponent implements OnInit {
     });
   }
 
-  onDateChange(event: any): void {
-    this.searchDate = event.value ? event.value : null;
+  /* onDateChange(event: any): void {
+    this.newDeadline = event.value ? event.value : null;
+    console.log("onDateChange " + this.newDeadline)
     //this.searchReflection();
-  }
+  } */
 
   switchPanel(panel: string) {
     this.activePanel = panel;
   }
 
+  toggleSubtasks(task: any) {
+    task.showSubtasks = !task.showSubtasks;
+  }
+
+  showAddSubtaskForm(task: any) {
+    task.showAddSubtaskForm = true;
+  }
+
+  // Hide form for adding a subtask
+  cancelAddSubtask(task: any) {
+    task.showAddSubtaskForm = false;
+  }
+
+  markTaskComplete(task: Task) {
+    this.taskManagerService.completeTask(task.title, this.sectionName).subscribe(
+        data => {
+          this.currentTasks = this.currentTasks.filter(t => t !== task)
+          this.history.push(task)
+        }     
+    ); 
+  }
+
+  markSubtaskComplete(task: Task, subtask: Subtask) {
+    subtask.completed = true;
+    this.taskManagerService.completeSubtask(
+      true, subtask.title, task.title, this.sectionName).subscribe(
+        data => { subtask.completed = true; }
+      ); 
+  }
+
   createTask() {
     
     if (this.newTaskTitle.trim()) {
+      console.log(this.newDeadline)
+      console.log(this.formatDate(new Date()))
   
       const task: Task = {
         title: this.newTaskTitle,
-        description: 'desc',
-        deadline: this.formatDate(new Date()),
-        createdDate: this.formatDate(new Date()),
+        description: this.newDescription,
+        deadline: this.formatDate(new Date(this.newDeadline!)),
+        dateCreated: this.formatDate(new Date()),
+        dateCompleted: null,
         subtasks: [],
-        isHistory: false,
+        showSubtasks: false,
+        showAddSubtaskForm: false,
       }
     
       
       this.taskManagerService.createTask(task, this.sectionName).subscribe(
         (data: any) => {
-          this.tasks.push(task)
+          console.log("returned task")
+          this.currentTasks.push(task)
          
         },
         error => {
@@ -110,9 +147,27 @@ export class TaskManagerComponent implements OnInit {
     }
   }
 
+  addSubtask(task: any) {
+    if (this.newSubtask.title && this.newSubtask.description && this.newSubtask.deadline) {
+      const createdDate = this.formatDate(new Date()); // Set the current date
+      const subtask = { ...this.newSubtask, createdDate };
+      this.newSubtask = { title: '', description: '', deadline: '', completed: false }; // Reset form
+      task.showAddSubtaskForm = false;  // Hide form
+      this.taskManagerService.addSubtaskToTask(task.title, subtask, this.sectionName).subscribe(data => {
+        task.subtasks.push(data);
+
+        console.log(data)
+    },
+
+    )
+    } else {
+      alert('Please fill in all fields.');
+    }
+  }
+
   // Add a new subtask to a specific task
-  addSubtaskToTask(taskIndex: number) {
-     const task = this.tasks[taskIndex];
+  /* addSubtaskToTask(taskIndex: number) {
+     const task = this.currentTasks[taskIndex];
     if (this.newSubtaskTitle.trim()) {
       const subtask: Subtask =  { title: this.newSubtaskTitle, description: "asdmksd", createdDate: this.formatDate(new Date()),
          deadline: this.formatDate(new Date()), completed: false }
@@ -125,26 +180,26 @@ export class TaskManagerComponent implements OnInit {
       )
       this.newSubtaskTitle = ''; // Reset the subtask input for this task
     } 
-  }
+  } */
 
   completeSubtask(taskIndex: number, subtaskIndex: number) {
-    const task = this.tasks[taskIndex]
+    const task = this.currentTasks[taskIndex]
     const subtask = task.subtasks[subtaskIndex]
     const newCompletedState = !subtask.completed;
     this.taskManagerService.completeSubtask(newCompletedState, subtask.title, task.title, this.sectionName).subscribe(
       (data: Subtask) => {
-        this.tasks[taskIndex].subtasks[subtaskIndex].completed = data.completed
+        this.currentTasks[taskIndex].subtasks[subtaskIndex].completed = data.completed
       },
     )
   }
 
 
   removeSubtask(taskIndex: number, subtaskIndex: number) {
-    const task = this.tasks[taskIndex]
+    const task = this.currentTasks[taskIndex]
     const subtask = task.subtasks[subtaskIndex]
     this.taskManagerService.deleteSubtask(subtask.title, task.title, this.sectionName).subscribe(
       (data: any) => {
-        this.tasks[taskIndex].subtasks.splice(subtaskIndex, 1);
+        this.currentTasks[taskIndex].subtasks.splice(subtaskIndex, 1);
       },
     )
   }
@@ -163,20 +218,8 @@ export class TaskManagerComponent implements OnInit {
 
   // Delete a task
   deleteTask(index: number) {
-    this.tasks.splice(index, 1);
+    this.currentTasks.splice(index, 1);
   }
-
-  completeTask(index: number) {
-    this.taskManagerService.completeTask(this.tasks[index].title, this.sectionName).subscribe(
-      (data: any) => {
-        const completedTask = this.tasks[index]
-        completedTask.isHistory = true;
-        this.history.push(completedTask);
-        this.tasks.splice(index, 1);
-      }
-    )
-  }
-
 
   formatDate(date: Date): string {
     return format(date, 'yyyy-MM-dd');

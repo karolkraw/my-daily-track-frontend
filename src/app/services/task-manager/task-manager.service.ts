@@ -25,6 +25,8 @@ export class TaskManagerService {
   }
 
   createTask(task: Task, sectionName: string): Observable<String> {
+    console.log("createTask" + task.title)
+
     sectionName = "abc"
 
     const partialTask: Partial<Task> = {
@@ -59,5 +61,4 @@ export class TaskManagerService {
     sectionName = "abc"
     return this.http.delete<void>(`${this.baseUrl}/subtasks/delete/${sectionName}/${taskTitle}/${subtaskTitle}/`);
   }
-
 }
