@@ -1,16 +1,19 @@
 export interface Task {
   title: string;
   description: string;
-  createdDate: string;
+  dateCreated: string;
   deadline: string;
+  dateCompleted: string | null;
   subtasks: Subtask[];
-  isHistory: boolean;
+  showSubtasks: false;
+  showAddSubtaskForm: false,
 }
 
 export interface Subtask {
   title: string;
   description: string;
-  createdDate: string;
+  dateCreated: string;
   deadline: string;
   completed: boolean;
+  dateCompleted: string;
 }
