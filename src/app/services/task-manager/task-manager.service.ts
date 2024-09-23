@@ -18,10 +18,16 @@ export class TaskManagerService {
     return this.http.get<Task[]>(`${this.baseUrl}/${sectionName}/`);
   }
 
-  getHistoryTasks(sectionName: string): Observable<Task[]> {
-    sectionName = "abc"
-    console.log("yty")
-    return this.http.get<Task[]>(`${this.baseUrl}/history/${sectionName}/`);
+  getHistoryTasks(sectionName: string): Observable<any> {
+    sectionName = 'abc';
+    console.log('Fetching history task for section:', sectionName);
+    return this.http.get<any>(`${this.baseUrl}/history/${sectionName}/`);
+  }
+
+  pollHistoryTasks(sectionName: string): Observable<any> {
+    console.log('Polling history task for section:', sectionName);
+    sectionName = 'abc';
+    return this.http.get<any>(`${this.baseUrl}/poll_history/${sectionName}/`);
   }
 
   createTask(task: Task, sectionName: string): Observable<String> {
@@ -42,7 +48,7 @@ export class TaskManagerService {
   completeTask(taskTitle: string, sectionName: string): Observable<string> {
     sectionName = "abc"
     const url = `${this.baseUrl}/complete/${sectionName}/${taskTitle}/`;
-    return this.http.patch<string>(url, {isHistory: true});
+    return this.http.delete<string>(url, {});
   }
 
   addSubtaskToTask(taskTitle: string, subtask: Subtask, sectionName: string): Observable<Subtask> {

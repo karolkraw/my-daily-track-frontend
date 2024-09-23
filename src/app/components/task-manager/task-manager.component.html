@@ -2,128 +2,125 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To-Do List App</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do List App</title>
 </head>
 
 <body>
-    <div class="app-container">
+  <div class="app-container">
 
-        <!-- Navigation Panel -->
-        <nav class="navigation-panel">
-            <button class="nav-btn" (click)="switchPanel('create')">Create Task</button>
-            <button class="nav-btn" (click)="switchPanel('current')">Current Tasks</button>
-            <button class="nav-btn" (click)="switchPanel('history')">History</button>
-        </nav>
+    <!-- Navigation Panel -->
+    <nav class="navigation-panel">
+      <button class="nav-btn" (click)="switchPanel('create')">Create Task</button>
+      <button class="nav-btn" (click)="switchPanel('current')">Current Tasks</button>
+      <button class="nav-btn" (click)="switchPanel('history'); loadHistoryTasks()">History</button>
+    </nav>
 
-        <div *ngIf="activePanel === 'create'" class="task-panel" id="add-task-panel">
-            <h2>Add New Task</h2>
-            <form id="task-form">
-                <input type="text" [(ngModel)]="newTaskTitle" name="taskTitle" placeholder="Task title..." required>
-                <input type="text" [(ngModel)]="newDescription" name="description" placeholder="Task description...">
-                <mat-form-field appearance="fill">
-                    <input matInput [matDatepicker]="picker" [(ngModel)]="newDeadline" [min]="tomorrow" name="deadline"
-                        placeholder="Select a deadline" style="width: 150px;">
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
-                <button type="submit" (click)="createTask()">Add Task</button>
-            </form>
-        </div>
-
-        <!-- Task List Section (Hidden by default) -->
-        <div *ngIf="activePanel === 'current'" class="task-list" id="current-tasks-panel">
-            <h2>Current Tasks</h2>
-            <ul>
-                <li *ngFor="let task of currentTasks" class="task">
-                    <div class="task-header">
-                        <span class="task-title">{{task.title}}</span>
-                        <span class="task-title">{{task.description}}</span>
-                        <span class="task-deadline">{{task.dateCreated}}</span>
-                        <span class="task-deadline">{{task.deadline}}</span>
-                        <button class="toggle-subtasks" (click)="toggleSubtasks(task)">
-                            Subtasks {{ task.showSubtasks ? '▲' : '▼' }}
-                        </button>
-                        <button (click)="markTaskComplete(task)">
-                            Mark as Complete
-                        </button>
-                    </div>
-
-                    <!-- Subtasks list -->
-                    <ul *ngIf="task.showSubtasks" class="subtasks">
-                        <li *ngFor="let subtask of task.subtasks" [class.completed]="subtask.completed">
-                            <div>
-                                <strong>Title:</strong> {{ subtask.title }} <br>
-                                <strong>Description:</strong> {{ subtask.description }} <br>
-                                <strong>Created Date:</strong> {{ subtask.dateCreated }} <br>
-                                <strong *ngIf="subtask.completed">Completed Date:</strong> {{ subtask.dateCompleted }}
-                                <br>
-                                <strong *ngIf="!subtask.completed">Deadline:</strong> {{ subtask.deadline }} <br>
-                            </div>
-
-                            <!-- Complete button -->
-                            <button (click)="markSubtaskComplete(task, subtask)" [disabled]="subtask.completed">
-                                {{ subtask.completed ? 'Completed' : 'Mark as Complete' }}
-                            </button>
-                        </li>
-
-
-                    </ul>
-
-                    <!-- Add Subtask button -->
-                    <button (click)="showAddSubtaskForm(task)">Add Subtask</button>
-
-                    <!-- Add Subtask form, shown only when adding a subtask -->
-                    <div *ngIf="task.showAddSubtaskForm" class="add-subtask-form">
-                        <h3>Add Subtask</h3>
-                        <label>
-                            Title:
-                            <input type="text" [(ngModel)]="newSubtask.title" placeholder="Subtask title">
-                        </label>
-                        <label>
-                            Description:
-                            <input type="text" [(ngModel)]="newSubtask.description" placeholder="Subtask description">
-                        </label>
-                        <label>
-                            Deadline:
-                            <input type="date" [(ngModel)]="newSubtask.deadline">
-                        </label>
-                        <button (click)="addSubtask(task)">Save Subtask</button>
-                        <button (click)="cancelAddSubtask(task)">Cancel</button>
-                    </div>
-                </li>
-            </ul>
-        </div>
-
-        <!-- History of completed tasks (Hidden by default) -->
-        <div *ngIf="activePanel === 'history'" class="history-section" id="history-section">
-            <h2>Completed Tasks</h2>
-            <ul>
-                <li *ngFor="let task of history" class="task">
-                    <div class="task-header">
-                        <span class="task-title">{{task.title}}</span>
-                        <span class="task-title">{{task.description}}</span>
-                        <span class="task-completed-date">{{task.dateCreated}}</span>
-                        <span class="task-completed-date">{{task.dateCompleted}}</span>
-                        <button class="toggle-subtasks" (click)="toggleSubtasks(task)">
-                            Subtasks {{ task.showSubtasks ? '▲' : '▼' }}
-                        </button>
-                    </div>
-                    <ul *ngIf="task.showSubtasks" class="subtasks">
-                        <li *ngFor="let subtask of task.subtasks">
-                            title: {{ subtask.title }}
-                            description: {{ subtask.description }}
-                            createdDate: {{ subtask.dateCreated }}
-                            completedDate: {{ subtask.dateCompleted }}
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
+    <!-- Task Creation Panel -->
+    <div *ngIf="activePanel === 'create'" class="task-panel" id="add-task-panel">
+      <h2>Add New Task</h2>
+      <form id="task-form">
+        <input type="text" [(ngModel)]="newTaskTitle" name="taskTitle" placeholder="Task title..." required />
+        <input type="text" [(ngModel)]="newDescription" name="description" placeholder="Task description..." />
+        <mat-form-field appearance="fill">
+          <input matInput [matDatepicker]="picker" [(ngModel)]="newDeadline" [min]="tomorrow" name="deadline"
+            placeholder="Select a deadline" style="width: 150px;" />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <button type="submit" (click)="createTask()">Add Task</button>
+      </form>
     </div>
 
+    <!-- Current Tasks Section -->
+    <div *ngIf="activePanel === 'current'" class="task-list" id="current-tasks-panel">
+      <h2>Current Tasks</h2>
+      <ul>
+        <li *ngFor="let task of currentTasks" class="task">
+          <div class="task-header">
+            <span class="task-title">{{task.title}}</span>
+            <span class="task-description">{{task.description}}</span>
+            <span class="task-deadline">{{task.dateCreated}}</span>
+            <span class="task-deadline">{{task.deadline}}</span>
+            <button class="toggle-subtasks" (click)="toggleSubtasks(task)">
+              Subtasks {{ task.showSubtasks ? '▲' : '▼' }}
+            </button>
+            <button (click)="markTaskComplete(task)">
+              Mark as Complete
+            </button>
+          </div>
 
+          <!-- Subtasks list -->
+          <ul *ngIf="task.showSubtasks" class="subtasks">
+            <li *ngFor="let subtask of task.subtasks" [class.completed]="subtask.completed">
+              <div>
+                <strong>Title:</strong> {{ subtask.title }} <br />
+                <strong>Description:</strong> {{ subtask.description }} <br />
+                <strong>Created Date:</strong> {{ subtask.dateCreated }} <br />
+                <strong *ngIf="subtask.completed">Completed Date:</strong> {{ subtask.dateCompleted }} <br />
+                <strong *ngIf="!subtask.completed">Deadline:</strong> {{ subtask.deadline }} <br />
+              </div>
+
+              <!-- Complete button -->
+              <button (click)="markSubtaskComplete(task, subtask)" [disabled]="subtask.completed">
+                {{ subtask.completed ? 'Completed' : 'Mark as Complete' }}
+              </button>
+            </li>
+          </ul>
+
+          <!-- Add Subtask button -->
+          <button (click)="showAddSubtaskForm(task)">Add Subtask</button>
+
+          <!-- Add Subtask form -->
+          <div *ngIf="task.showAddSubtaskForm" class="add-subtask-form">
+            <h3>Add Subtask</h3>
+            <label>
+              Title:
+              <input type="text" [(ngModel)]="newSubtask.title" placeholder="Subtask title" />
+            </label>
+            <label>
+              Description:
+              <input type="text" [(ngModel)]="newSubtask.description" placeholder="Subtask description" />
+            </label>
+            <label>
+              Deadline:
+              <input type="date" [(ngModel)]="newSubtask.deadline" />
+            </label>
+            <button (click)="addSubtask(task)">Save Subtask</button>
+            <button (click)="cancelAddSubtask(task)">Cancel</button>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- History Section -->
+    <div *ngIf="activePanel === 'history'" class="history-section" id="history-section">
+      <h2>Completed Tasks</h2>
+      <ul>
+        <li *ngFor="let task of history" class="task">
+          <div class="task-header">
+            <span class="task-title">{{task.title}}</span>
+            <span class="task-description">{{task.description}}</span>
+            <span class="task-completed-date">{{task.dateCreated}}</span>
+            <span class="task-completed-date">{{task.dateCompleted}}</span>
+            <button class="toggle-subtasks" (click)="toggleSubtasks(task)">
+              Subtasks {{ task.showSubtasks ? '▲' : '▼' }}
+            </button>
+          </div>
+
+          <ul *ngIf="task.showSubtasks" class="subtasks">
+            <li *ngFor="let subtask of task.subtasks">
+              <strong>Title:</strong> {{ subtask.title }} <br />
+              <strong>Description:</strong> {{ subtask.description }} <br />
+              <strong>Created Date:</strong> {{ subtask.dateCreated }} <br />
+              <strong>Completed Date:</strong> {{ subtask.dateCompleted }} <br />
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
 </body>
 
 </html>
