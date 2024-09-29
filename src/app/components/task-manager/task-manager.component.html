@@ -41,7 +41,7 @@
           <div class="task-header">
             <span class="task-title">{{task.title}}</span>
             <span class="task-description">{{task.description}}</span>
-            <span class="task-deadline">{{task.dateCreated}}</span>
+            <span class="task-deadline">{{task.createdDate}}</span>
             <span class="task-deadline">{{task.deadline}}</span>
             <button class="toggle-subtasks" (click)="toggleSubtasks(task)">
               Subtasks {{ task.showSubtasks ? '▲' : '▼' }}
@@ -57,8 +57,8 @@
               <div>
                 <strong>Title:</strong> {{ subtask.title }} <br />
                 <strong>Description:</strong> {{ subtask.description }} <br />
-                <strong>Created Date:</strong> {{ subtask.dateCreated }} <br />
-                <strong *ngIf="subtask.completed">Completed Date:</strong> {{ subtask.dateCompleted }} <br />
+                <strong>Created Date:</strong> {{ subtask.createdDate }} <br />
+                <strong *ngIf="subtask.completed">Completed Date:</strong> {{ subtask.completedDate }} <br />
                 <strong *ngIf="!subtask.completed">Deadline:</strong> {{ subtask.deadline }} <br />
               </div>
 
@@ -102,8 +102,8 @@
           <div class="task-header">
             <span class="task-title">{{task.title}}</span>
             <span class="task-description">{{task.description}}</span>
-            <span class="task-completed-date">{{task.dateCreated}}</span>
-            <span class="task-completed-date">{{task.dateCompleted}}</span>
+            <span class="task-completed-date">{{task.createdDate}}</span>
+            <span class="task-completed-date">{{task.completedDate}}</span>
             <button class="toggle-subtasks" (click)="toggleSubtasks(task)">
               Subtasks {{ task.showSubtasks ? '▲' : '▼' }}
             </button>
@@ -113,8 +113,8 @@
             <li *ngFor="let subtask of task.subtasks">
               <strong>Title:</strong> {{ subtask.title }} <br />
               <strong>Description:</strong> {{ subtask.description }} <br />
-              <strong>Created Date:</strong> {{ subtask.dateCreated }} <br />
-              <strong>Completed Date:</strong> {{ subtask.dateCompleted }} <br />
+              <strong>Created Date:</strong> {{ subtask.createdDate }} <br />
+              <strong>Completed Date:</strong> {{ subtask.completedDate }} <br />
             </li>
           </ul>
         </li>

@@ -1,9 +1,9 @@
 export interface Task {
   title: string;
   description: string;
-  dateCreated: string;
+  createdDate: string;
   deadline: string;
-  dateCompleted: string | null;
+  completedDate: string | null;
   subtasks: Subtask[];
   showSubtasks: false;
   showAddSubtaskForm: false,
@@ -12,8 +12,8 @@ export interface Task {
 export interface Subtask {
   title: string;
   description: string;
-  dateCreated: string;
+  createdDate: string;
   deadline: string;
   completed: boolean;
-  dateCompleted: string;
+  completedDate: string;
 }

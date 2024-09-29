@@ -56,7 +56,7 @@ export class TaskManagerComponent implements OnInit {
   }
 
   loadActiveTasks(): void {
-    this.taskManagerService.getTasks(this.sectionName).subscribe(data => {
+    this.taskManagerService.getTasks(this.sectionName).subscribe(data => {    
       this.currentTasks = data;
     });
   }
@@ -136,7 +136,6 @@ export class TaskManagerComponent implements OnInit {
   }
 
   createTask() {
-    
     if (this.newTaskTitle.trim()) {
       console.log(this.newDeadline)
       console.log(this.formatDate(new Date()))
@@ -145,8 +144,8 @@ export class TaskManagerComponent implements OnInit {
         title: this.newTaskTitle,
         description: this.newDescription,
         deadline: this.formatDate(new Date(this.newDeadline!)),
-        dateCreated: this.formatDate(new Date()),
-        dateCompleted: null,
+        createdDate: this.formatDate(new Date()),
+        completedDate: null,
         subtasks: [],
         showSubtasks: false,
         showAddSubtaskForm: false,
