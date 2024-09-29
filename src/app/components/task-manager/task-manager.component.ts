@@ -68,7 +68,6 @@ export class TaskManagerComponent implements OnInit {
           this.pollForHistoryTasks();
         } else {
           this.history = response.data;
-          console.log('History data:', response.data);
         }
       },
       (error) => {
@@ -115,7 +114,6 @@ export class TaskManagerComponent implements OnInit {
     task.showAddSubtaskForm = true;
   }
 
-  // Hide form for adding a subtask
   cancelAddSubtask(task: any) {
     task.showAddSubtaskForm = false;
   }
