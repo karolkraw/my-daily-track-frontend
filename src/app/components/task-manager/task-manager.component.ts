@@ -87,8 +87,6 @@ export class TaskManagerComponent implements OnInit {
             console.log('History task is still processing...');
           } else {
             this.history = response.data;
-            console.log("History data...")
-            console.log('History data:', response.data);
             pollSubscription.unsubscribe();
           }
         },
