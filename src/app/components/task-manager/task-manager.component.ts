@@ -58,7 +58,6 @@ export class TaskManagerComponent implements OnInit {
   loadActiveTasks(): void {
     this.taskManagerService.getTasks(this.sectionName).subscribe(data => {
       this.currentTasks = data;
-      console.log("emrke")
     });
   }
 
@@ -66,10 +65,8 @@ export class TaskManagerComponent implements OnInit {
     this.taskManagerService.getHistoryTasks(this.sectionName).subscribe(
       (response) => {
         if (response.status === 'processing') {
-          // Task is still processing, start polling for the result
           this.pollForHistoryTasks();
         } else {
-          // Task is completed and result is returned
           this.history = response.data;
           console.log('History data:', response.data);
         }
@@ -81,7 +78,7 @@ export class TaskManagerComponent implements OnInit {
   }
   
   pollForHistoryTasks(): void {
-    const pollInterval = 3000; // Poll every 3 seconds
+    const pollInterval = 300;
     const pollSubscription = interval(pollInterval).pipe(
       switchMap(() => this.taskManagerService.pollHistoryTasks(this.sectionName)))
       .subscribe(
@@ -90,13 +87,14 @@ export class TaskManagerComponent implements OnInit {
             console.log('History task is still processing...');
           } else {
             this.history = response.data;
+            console.log("History data...")
             console.log('History data:', response.data);
-            pollSubscription.unsubscribe(); // Stop polling once the result is available
+            pollSubscription.unsubscribe();
           }
         },
         (error) => {
           console.error('Error polling history tasks:', error);
-          pollSubscription.unsubscribe(); // Stop polling in case of error
+          pollSubscription.unsubscribe();
         }
       );
   }
