@@ -21,12 +21,12 @@ import { TaskManagerComponent } from './components/task-manager/task-manager.com
 
 
 const routes: Routes = [
-  { path: 'goals', component: TaskManagerComponent },
   { path: '', component: SectionComponent },
+  { path: 'section', component: SectionComponent },
   { path: 'section/:name', component: SectionAreaComponent },
   { path: 'section/:name/streak', component: StreakComponent },
   { path: 'section/:name/reflections', component: ReflectionComponent },
-  { path: 'section', component: SectionComponent },
+  { path: 'section/:name/goals', component: TaskManagerComponent },
   { path: '**', redirectTo: '' },
 ];
 
