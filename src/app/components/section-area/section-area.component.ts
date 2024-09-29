@@ -14,10 +14,10 @@ export class SectionAreaComponent implements OnInit {
   areas: Area[] = [
     { id: 1, name: "Streak" },
     { id: 2, name: "Reflections" },
-    { id: 3, name: "Ideas" },
+    //{ id: 3, name: "Ideas" },
     { id: 4, name: "Goals" },
-    { id: 5, name: "To Do" },
-    { id: 6, name: "Planner" }
+    //{ id: 5, name: "To Do" },
+    //{ id: 6, name: "Planner" }
   ];
 
   constructor(private router: Router, private route: ActivatedRoute) {}
