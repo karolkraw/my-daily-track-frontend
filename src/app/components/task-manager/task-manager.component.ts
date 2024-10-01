@@ -155,7 +155,6 @@ export class TaskManagerComponent implements OnInit {
         showSubtasks: false,
         showAddSubtaskForm: false,
       }
-      console.log("rmkmert")
     
       this.taskManagerService.createTask(task, this.sectionName).subscribe(
         (data: any) => {       
