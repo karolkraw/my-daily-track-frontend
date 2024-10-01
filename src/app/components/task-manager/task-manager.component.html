@@ -40,22 +40,24 @@
       <ul>
         <li *ngFor="let task of currentTasks" class="task">
           <div class="task-header">
-            <span class="task-title">{{task.title}}</span>
-            <span class="task-description">{{task.description}}</span>
-            <span class="task-deadline">{{task.createdDate}}</span>
-            <span class="task-deadline">{{task.deadline}}</span>
-            <button class="toggle-subtasks" (click)="toggleSubtasks(task)">
-              Subtasks {{ task.showSubtasks ? '▲' : '▼' }}
-            </button>
-            <button (click)="markTaskComplete(task)">
-              Mark as Complete
-            </button>
+            <div class="task-grid">
+              <span class="task-title">{{task.title}}</span>
+              <span>{{task.description}}</span>
+              <span class="task-created">{{task.createdDate}}</span>
+              <span class="task-deadline">{{task.deadline}}</span>
+              <button class="toggle-subtasks" (click)="toggleSubtasks(task)">
+                Subtasks {{ task.showSubtasks ? '▲' : '▼' }}
+              </button>
+              <button (click)="markTaskComplete(task)">
+                Mark as Complete
+              </button>
+            </div>
           </div>
 
           <!-- Subtasks list -->
           <ul *ngIf="task.showSubtasks" class="subtasks">
             <li *ngFor="let subtask of task.subtasks" [class.completed]="subtask.completed">
-              <div>
+              <div class="subtask-grid">
                 <strong>Title:</strong> {{ subtask.title }} <br />
                 <strong>Description:</strong> {{ subtask.description }} <br />
                 <strong>Created Date:</strong> {{ subtask.createdDate }} <br />

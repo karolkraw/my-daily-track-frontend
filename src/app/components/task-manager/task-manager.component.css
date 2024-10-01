@@ -95,6 +95,14 @@ h2 {
   margin-bottom: 20px;
 }
 
+.task-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 1fr auto auto;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+}
+
 ul {
   list-style-type: none;
 }
@@ -116,7 +124,9 @@ ul {
   color: #333;
 }
 
-.task-deadline, .task-completed-date {
+.task-created,
+.task-deadline,
+.task-completed-date {
   font-size: 14px;
   color: #888;
 }
@@ -180,3 +190,39 @@ input[type="checkbox"] {
   text-decoration: line-through;
   color: gray;
 }
+
+.subtasks {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+.subtask-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 1fr;
+  gap: 10px;
+  align-items: center;
+}
+
+.add-subtask-form {
+  margin-top: 10px;
+}
+
+.add-subtask-form input,
+.add-subtask-form button {
+  margin-bottom: 10px;
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.add-subtask-form button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+}
+
+.add-subtask-form button:hover {
+  background-color: #218838;
+}
+
