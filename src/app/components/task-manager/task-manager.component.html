@@ -24,7 +24,8 @@
         <input type="text" [(ngModel)]="newTaskTitle" name="taskTitle" placeholder="Task title..." required />
         <input type="text" [(ngModel)]="newDescription" name="description" placeholder="Task description..." />
         <mat-form-field appearance="fill">
-          <input matInput [matDatepicker]="picker" [(ngModel)]="newDeadline" [min]="tomorrow" name="deadline"
+          <input matInput [matDatepicker]="picker" [(ngModel)]="newDeadline" 
+            [min]="tomorrow" name="deadline" autocomplete="off"
             placeholder="Select a deadline" style="width: 150px;" />
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
@@ -58,8 +59,10 @@
                 <strong>Title:</strong> {{ subtask.title }} <br />
                 <strong>Description:</strong> {{ subtask.description }} <br />
                 <strong>Created Date:</strong> {{ subtask.createdDate }} <br />
-                <strong *ngIf="subtask.completed">Completed Date:</strong> {{ subtask.completedDate }} <br />
-                <strong *ngIf="!subtask.completed">Deadline:</strong> {{ subtask.deadline }} <br />
+                <strong *ngIf="subtask.completed">Completed Date:</strong>
+                <span *ngIf="subtask.completed"> {{ subtask.completedDate }} <br /></span>
+                <strong *ngIf="!subtask.completed">Deadline:</strong>
+                <span *ngIf="!subtask.completed"> {{ subtask.deadline }} <br /></span>
               </div>
 
               <!-- Complete button -->

@@ -113,27 +113,38 @@ export class TaskManagerComponent implements OnInit {
   }
 
   markTaskComplete(task: Task) {
-    this.taskManagerService.completeTask(task.title, this.sectionName).subscribe(
-        data => {
-          this.currentTasks = this.currentTasks.filter(t => t !== task)
-          this.history.push(task)
-        }     
-    ); 
+    const allCompleted = this.checkIfAllSubtasksCompleted(task)
+    if (!allCompleted) {
+      alert('All subtasks must be completed');
+      return;
+    }
+    this.taskManagerService.completeTask(task.title, this.sectionName).subscribe()
+    this.currentTasks = this.currentTasks.filter(t => t !== task)
+    task.completedDate = this.formatDateStartDay(new Date())
+    this.history.push(task)
+  }
+
+  checkIfAllSubtasksCompleted(task: Task): Boolean {
+    return !task.subtasks.find(subtask => !subtask.completed);
   }
 
   markSubtaskComplete(task: Task, subtask: Subtask) {
     subtask.completed = true;
-    this.taskManagerService.completeSubtask(
-      true, subtask.title, task.title, this.sectionName).subscribe(
-        data => { subtask.completed = true; }
-      ); 
+    this.taskManagerService.completeSubtask(true, subtask.title, task.title, this.sectionName)
+      .subscribe( data => {
+        const currentSubtask = task.subtasks.find(st => st.title === subtask.title);
+        if (currentSubtask) {
+          currentSubtask.completed = true;
+          currentSubtask.completedDate = data.completedDate
+        } else {
+          console.error('Subtask not found in the task');
+        }    
+      }     
+    ); 
   }
-
+          
   createTask() {
     if (this.newTaskTitle.trim()) {
-      console.log(this.newDeadline)
-      console.log(this.formatDate(new Date()))
-  
       const task: Task = {
         title: this.newTaskTitle,
         description: this.newDescription,
@@ -144,10 +155,12 @@ export class TaskManagerComponent implements OnInit {
         showSubtasks: false,
         showAddSubtaskForm: false,
       }
+      console.log("rmkmert")
     
       this.taskManagerService.createTask(task, this.sectionName).subscribe(
         (data: any) => {       
           this.currentTasks.push(task) 
+          console.log(this.currentTasks)
         },
         error => {
           console.error('Error fetching tasks data', error);
@@ -207,4 +220,9 @@ export class TaskManagerComponent implements OnInit {
   formatDate(date: Date): string {
     return format(date, 'yyyy-MM-dd');
   }
+
+  formatDateStartDay(date: Date): string {
+    return format(date, 'dd-MM-yyyy');
+  }
 }
+
