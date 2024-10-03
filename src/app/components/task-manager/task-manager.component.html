@@ -43,7 +43,7 @@
         <span class="header-description">Description</span>
         <span class="header-created">Created Date</span>
         <span class="header-deadline">Deadline</span>
-        <span class="header-actions">Subtasks</span>
+        <span class="header-subtasks">Subtasks</span>
         <span class="header-actions">Actions</span>
       </div>
 
@@ -54,12 +54,17 @@
             <span class="task-description">{{task.description}}</span>
             <span class="task-created">{{task.createdDate}}</span>
             <span class="task-deadline">{{task.deadline}}</span>
-            <button class="toggle-subtasks" (click)="toggleSubtasks(task)">
+            <span class="task-subtasks">
+              <button (click)="showAddSubtaskForm(task)">Add Subtask</button>
+              <button class="toggle-subtasks" (click)="toggleSubtasks(task)">
               Subtasks {{ task.showSubtasks ? '▲' : '▼' }}
-            </button>
-            <button (click)="markTaskComplete(task)">
-              Mark as Complete
-            </button>
+              </button>
+            </span>
+            <span class="task-actions">
+              <button (click)="markTaskComplete(task)">Complete</button>
+              <button (click)="markTaskComplete(task)">Update</button>
+              <button (click)="markTaskComplete(task)">Delete</button>
+            </span>
           </div>
 
           <ul *ngIf="task.showSubtasks" class="subtasks">
@@ -80,9 +85,6 @@
               </button>
             </li>
           </ul>
-
-          <!-- Add Subtask button -->
-          <button (click)="showAddSubtaskForm(task)">Add Subtask</button>
 
           <!-- Add Subtask form -->
           <div *ngIf="task.showAddSubtaskForm" class="add-subtask-form">
