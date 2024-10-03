@@ -19,6 +19,40 @@ body {
   margin: 0 auto;
 }
 
+.task-panel {
+  width: 50%;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.task-panel form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.task-panel input, .task-panel button {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.task-panel button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.task-panel button:hover {
+  background-color: #218838;
+}
+
+
 h2 {
   font-size: 28px;
   margin-bottom: 20px;
@@ -60,7 +94,6 @@ h2 {
 .task-title {
   flex: 2;
 }
-
 
 .task-title {
   font-weight: bold;
@@ -150,8 +183,6 @@ ul {
   padding: 5px 0;
 }
 
-
-
 .task-list {
   display: flex;
   flex-direction: column;
@@ -170,7 +201,6 @@ ul {
   display: flex;
   flex-direction: column;
   gap: 5px;
-  padding: 10px;
 }
 
 .task-row span {
@@ -211,4 +241,33 @@ ul {
 
 .delete-task:hover {
   background-color: #8c1212;
+}
+
+.add-subtask-form {
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  width: max-content; 
+}
+.add-subtask-form input,
+.add-subtask-form button {
+  margin-bottom: 10px;
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+.add-subtask-form button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+}
+.add-subtask-form button:hover {
+  background-color: #218838;
+}
+
+.add-subtask-title,
+.add-subtask-description,
+.add-subtask-deadline {
+  font-weight: bold;
 }
