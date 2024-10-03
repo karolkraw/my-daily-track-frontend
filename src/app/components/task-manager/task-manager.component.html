@@ -18,7 +18,7 @@
     </nav>
 
     <!-- Task Creation Panel -->
-    <div *ngIf="activePanel === 'create'" class="task-panel" id="add-task-panel">
+    <div *ngIf="activePanel === 'create'" class="task-panel">
       <h2>Add New Task</h2>
       <form id="task-form">
         <input type="text" [(ngModel)]="newTaskTitle" name="taskTitle" placeholder="Task title..." required />
@@ -35,7 +35,7 @@
     </div>
 
     <!-- Current Tasks Section -->
-    <div *ngIf="activePanel === 'current'" class="task-list" id="current-tasks-panel">
+    <div *ngIf="activePanel === 'current'" class="task-list">
       <h2>Current Tasks</h2>
 
       <div class="task-row">

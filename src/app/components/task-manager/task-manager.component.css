@@ -145,30 +145,17 @@ ul {
   margin-bottom: 10px;
 }
 
-/* Extra styling for responsiveness */
 .task-row span,
 .task-header-row span {
   padding: 5px 0;
 }
 
-/* Hide the buttons when not needed for mobile responsiveness */
-@media (max-width: 768px) {
-  .task-header-row,
-  .task-row {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .task-row button {
-    margin: 10px 0 0 0;
-  }
-}
+
 
 .task-list {
   display: flex;
   flex-direction: column;
   width: 100%;
-  border: 1px solid #ccc;
 }
 
 .task-actions {
