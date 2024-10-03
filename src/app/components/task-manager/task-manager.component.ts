@@ -159,7 +159,6 @@ export class TaskManagerComponent implements OnInit {
       this.taskManagerService.createTask(task, this.sectionName).subscribe(
         (data: any) => {       
           this.currentTasks.push(task) 
-          console.log(this.currentTasks)
         },
         error => {
           console.error('Error fetching tasks data', error);
