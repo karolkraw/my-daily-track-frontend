@@ -40,6 +40,10 @@ export class TaskManagerService {
     return this.http.delete<string>(url, {});
   }
 
+  deleteTask(taskTitle: string, sectionName: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/delete/${sectionName}/${taskTitle}/`);
+  }
+
   addSubtaskToTask(taskTitle: string, subtask: Subtask, sectionName: string): Observable<Subtask> {
     const url = `${this.baseUrl}/subtasks/create/${sectionName}/${taskTitle}/`;
     return this.http.post<Subtask>(url, subtask);
