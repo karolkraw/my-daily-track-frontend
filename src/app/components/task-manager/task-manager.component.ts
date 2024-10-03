@@ -47,16 +47,16 @@ export class TaskManagerComponent implements OnInit {
 
   completedTasks: Task[] = [];
 
-  constructor(private taskManagerService: TaskManagerService, private route: ActivatedRoute) {}
+  constructor(private taskManagerService: TaskManagerService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.sectionName = this.route.snapshot.paramMap.get('name') || '';
     this.loadActiveTasks();
-    this.loadHistoryTasks(); 
+    this.loadHistoryTasks();
   }
 
   loadActiveTasks(): void {
-    this.taskManagerService.getTasks(this.sectionName).subscribe(data => {    
+    this.taskManagerService.getTasks(this.sectionName).subscribe(data => {
       this.currentTasks = data;
     });
   }
@@ -75,7 +75,7 @@ export class TaskManagerComponent implements OnInit {
       }
     );
   }
-  
+
   pollForHistoryTasks(): void {
     const pollInterval = 300;
     const pollSubscription = interval(pollInterval).pipe(
@@ -124,6 +124,29 @@ export class TaskManagerComponent implements OnInit {
     this.history.push(task)
   }
 
+  deleteTask(task: Task) {
+    const isConfirmed = window.confirm(`Are you sure you want to delete the task: "${task.title}"?`);
+    if (isConfirmed) {
+      const taskIndex = this.currentTasks.findIndex(t => t.title === task.title);
+      this.taskManagerService.deleteTask(task.title, this.sectionName).subscribe(
+        (data: any) => {
+          this.currentTasks.splice(taskIndex, 1);
+        },
+      )
+    }
+  }
+
+  /*deleteSubtask(taskIndex: number, subtaskIndex: number) {
+    const task = this.currentTasks[taskIndex]
+    const subtask = task.subtasks[subtaskIndex]
+    this.taskManagerService.deleteSubtask(subtask.title, task.title, this.sectionName).subscribe(
+      (data: any) => {
+        this.currentTasks[taskIndex].subtasks.splice(subtaskIndex, 1);
+      },
+    )
+  }
+    */
+
   checkIfAllSubtasksCompleted(task: Task): Boolean {
     return !task.subtasks.find(subtask => !subtask.completed);
   }
@@ -131,18 +154,18 @@ export class TaskManagerComponent implements OnInit {
   markSubtaskComplete(task: Task, subtask: Subtask) {
     subtask.completed = true;
     this.taskManagerService.completeSubtask(true, subtask.title, task.title, this.sectionName)
-      .subscribe( data => {
+      .subscribe(data => {
         const currentSubtask = task.subtasks.find(st => st.title === subtask.title);
         if (currentSubtask) {
           currentSubtask.completed = true;
           currentSubtask.completedDate = data.completedDate
         } else {
           console.error('Subtask not found in the task');
-        }    
-      }     
-    ); 
+        }
+      }
+      );
   }
-          
+
   createTask() {
     if (this.newTaskTitle.trim()) {
       const task: Task = {
@@ -155,10 +178,10 @@ export class TaskManagerComponent implements OnInit {
         showSubtasks: false,
         showAddSubtaskForm: false,
       }
-    
+
       this.taskManagerService.createTask(task, this.sectionName).subscribe(
-        (data: any) => {       
-          this.currentTasks.push(task) 
+        (data: any) => {
+          this.currentTasks.push(task)
         },
         error => {
           console.error('Error fetching tasks data', error);
@@ -193,7 +216,7 @@ export class TaskManagerComponent implements OnInit {
     )
   }
 
-  removeSubtask(taskIndex: number, subtaskIndex: number) {
+  deleteSubtask(taskIndex: number, subtaskIndex: number) {
     const task = this.currentTasks[taskIndex]
     const subtask = task.subtasks[subtaskIndex]
     this.taskManagerService.deleteSubtask(subtask.title, task.title, this.sectionName).subscribe(
@@ -209,10 +232,6 @@ export class TaskManagerComponent implements OnInit {
 
   updateTask(index: number) {
     this.isEditing = false;
-  }
-
-  deleteTask(index: number) {
-    this.currentTasks.splice(index, 1);
   }
 
   formatDate(date: Date): string {
