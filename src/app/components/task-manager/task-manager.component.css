@@ -19,17 +19,66 @@ body {
   margin: 0 auto;
 }
 
+h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  margin-left: 10px;
+  color: #333;
+}
+
 .hidden {
   display: none;
 }
 
-h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
+.task-container {
+  width: 100%;
+}
+
+.task-header-row,
+.task-row {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  padding: 10px;
+  justify-content: space-between;
+  background-color: #f0f0f0;
+  margin-bottom: 10px;
+}
+
+.header-title,
+.header-description,
+.header-created,
+.header-deadline,
+.header-actions {
+  font-weight: bold;
   color: #333;
 }
 
-/* Navigation Panel */
+.header-title,
+.task-title {
+  flex: 2;
+}
+
+.header-description,
+.task-description {
+  flex: 3;
+}
+
+.header-created,
+.header-deadline,
+.header-actions,
+.task-created,
+.task-deadline {
+  flex: 1;
+}
+
+.task-created,
+.task-deadline {
+  flex: 1;
+  font-size: 14px;
+  color: #888;
+}
+
 .navigation-panel {
   display: flex;
   justify-content: center;
@@ -51,178 +100,57 @@ h2 {
   background-color: #0056b3;
 }
 
-/* Task Creation Panel */
-.task-panel {
-  width: 50%;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-}
-
-.task-panel form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.task-panel input, .task-panel button {
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-
-.task-panel button {
-  background-color: #28a745;
-  color: white;
+button {
+  padding: 5px 10px;
   border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
   cursor: pointer;
 }
 
-.task-panel button:hover {
-  background-color: #218838;
-}
-
-/* Task List Section */
-.task-list {
-  width: 50%;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-}
-
-.task-grid {
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr 1fr auto auto;
-  gap: 10px;
-  align-items: center;
-  width: 100%;
+button:hover {
+  background-color: #0056b3;
 }
 
 ul {
   list-style-type: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .task {
-  margin-bottom: 20px;
   border-bottom: 1px solid #eee;
   padding-bottom: 10px;
-}
-
-.task-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.task-title {
-  font-weight: bold;
-  color: #333;
-}
-
-.task-created,
-.task-deadline,
-.task-completed-date {
-  font-size: 14px;
-  color: #888;
-}
-
-.toggle-subtasks {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.toggle-subtasks:hover {
-  background-color: #0056b3;
-}
-
-.subtask-list {
-  margin-top: 10px;
-  display: none;
-}
-
-.task.expanded .subtask-list {
-  display: block;
-}
-
-.subtask-list li {
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-}
-
-input[type="checkbox"] {
-  margin-right: 10px;
-}
-
-/* History Section */
-.history-section {
-  width: 50%;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-}
-
-.history-section .task-header {
-  color: #6c757d;
-}
-
-.history-section .subtask-list li {
-  text-decoration: line-through;
-  color: #6c757d;
-}
-
-.hidden {
-  display: none;
-}
-
-.completed {
-  text-decoration: line-through;
-  color: gray;
-}
-
-.subtasks {
-  margin-top: 10px;
-  padding-left: 20px;
-}
-
-.subtask-grid {
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr 1fr;
-  gap: 10px;
-  align-items: center;
-}
-
-.add-subtask-form {
-  margin-top: 10px;
-}
-
-.add-subtask-form input,
-.add-subtask-form button {
   margin-bottom: 10px;
-  padding: 8px;
-  font-size: 14px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
 }
 
-.add-subtask-form button {
-  background-color: #28a745;
-  color: white;
-  border: none;
+/* Extra styling for responsiveness */
+.task-row span,
+.task-header-row span {
+  padding: 5px 0;
 }
 
-.add-subtask-form button:hover {
-  background-color: #218838;
+.task-row button {
+  margin-left: 10px;
 }
 
+/* Hide the buttons when not needed for mobile responsiveness */
+@media (max-width: 768px) {
+  .task-header-row,
+  .task-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .task-row button {
+    margin: 10px 0 0 0;
+  }
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
