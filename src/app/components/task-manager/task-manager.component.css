@@ -43,6 +43,7 @@ h2 {
   justify-content: space-between;
   background-color: #f0f0f0;
   margin-bottom: 10px;
+  gap: 25px;
 }
 
 .header-title,
@@ -60,8 +61,14 @@ h2 {
   flex: 2;
 }
 
+
 .task-title {
-  font-size: 18px
+  font-weight: bold;
+  word-break: break-word;
+}
+
+.task-description {
+  word-break: break-word;
 }
 
 .header-description,
@@ -82,12 +89,12 @@ h2 {
 .task-created {
   flex: 1;
   font-size: 15px;
-  color: #666666;
 }
 
 .task-deadline {
   flex: 1;
   font-size: 15px;
+  font-weight: bold;
   color: #313030;
 }
 
@@ -139,7 +146,10 @@ ul {
 }
 
 /* Extra styling for responsiveness */
-
+.task-row span,
+.task-header-row span {
+  padding: 5px 0;
+}
 
 /* Hide the buttons when not needed for mobile responsiveness */
 @media (max-width: 768px) {
@@ -166,17 +176,52 @@ ul {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  padding: 45px;
 }
 
-.task-subtasks {
+.task-row .task-subtasks {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 5px;
-  padding: 45px;
+  padding: 10px;
 }
 
 .task-row span {
   text-align: center;
+}
+
+.add-subtask {
+  background-color: #59d857;
+  transition: background-color 0.3s ease;
+}
+
+.add-subtask:hover {
+  background-color: #2bae3c;
+}
+
+.complete-task {
+  background-color: #59d857;
+  transition: background-color 0.3s ease;
+}
+
+.complete-task:hover {
+  background-color: #2bae3c;
+}
+
+.update-task {
+  background-color: #f4bb10;
+  transition: background-color 0.3s ease;
+}
+
+.update-task:hover {
+  background-color: #eea215;
+}
+
+.delete-task {
+  background-color: #bd1717;
+  transition: background-color 0.3s ease;
+}
+
+.delete-task:hover {
+  background-color: #8c1212;
 }

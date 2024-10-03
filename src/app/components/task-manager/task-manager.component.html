@@ -55,15 +55,15 @@
             <span class="task-created">{{task.createdDate}}</span>
             <span class="task-deadline">{{task.deadline}}</span>
             <span class="task-subtasks">
-              <button (click)="showAddSubtaskForm(task)">Add Subtask</button>
+              <button class="add-subtask" (click)="showAddSubtaskForm(task)">Add Subtask</button>
               <button class="toggle-subtasks" (click)="toggleSubtasks(task)">
               Subtasks {{ task.showSubtasks ? '▲' : '▼' }}
               </button>
             </span>
             <span class="task-actions">
-              <button (click)="markTaskComplete(task)">Complete</button>
-              <button (click)="markTaskComplete(task)">Update</button>
-              <button (click)="markTaskComplete(task)">Delete</button>
+              <button class="complete-task" (click)="markTaskComplete(task)">Complete</button>
+              <button class="update-task" (click)="markTaskComplete(task)">Update</button>
+              <button class="delete-task" (click)="markTaskComplete(task)">Delete</button>
             </span>
           </div>
 
