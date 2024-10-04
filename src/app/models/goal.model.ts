@@ -7,6 +7,10 @@ export interface Task {
   subtasks: Subtask[];
   showSubtasks: false;
   showAddSubtaskForm: false,
+  editingField: 'title' | 'description' | 'deadline' | null;
+  updatedTitle: string,
+  updatedDescription: string,
+  updatedDeadline: string,
 }
 
 export interface Subtask {
