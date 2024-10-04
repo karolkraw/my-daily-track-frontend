@@ -124,6 +124,67 @@ export class TaskManagerComponent implements OnInit {
     this.history.push(task)
   }
 
+  editTaskField(task: Task, field: 'title' | 'description' | 'deadline') {
+    task.editingField = field;
+    console.log(task.updatedTitle)
+    task.updatedTitle = task.title;
+    task.updatedDescription = task.description;
+    task.updatedDeadline = task.deadline;
+
+
+   /*  if(task.updatedTitle !== undefined && task.updatedTitle !== task.title)
+      task.updatedTitle = task.title;
+    if(task.updatedDescription !== undefined && task.updatedDescription !== task.description)
+      task.updatedDescription = task.description;
+    if(task.updatedDeadline !== undefined && task.updatedDeadline !== task.deadline)
+      task.updatedDeadline = task.deadline; */
+  }
+
+  saveTaskField(task: Task, field: 'title' | 'description' | 'deadline') {
+    if (field === 'title') {
+      task.title = task.updatedTitle;
+    } else if (field === 'description') {
+      task.description = task.updatedDescription;
+    } else if (field === 'deadline') {
+      task.deadline = task.updatedDeadline;
+    }
+    
+    task.editingField = null;
+  }
+
+  cancelUpdateWithDelay(task: any) {
+    setTimeout(() => this.cancelUpdate(task), 200);
+  }
+
+  cancelUpdate(task: Task) {
+    task.editingField = null;
+    /* task.updatedTitle = '';
+    task.updatedDescription = '';
+    task.updatedDeadline = ''; */
+  }
+
+  updateTask(task: Task) {
+    let currentTaskTitle = task.title;
+    let partialTask: Partial<Task> = {};
+    if (task.updatedTitle != task.title) {
+      partialTask.title = task.updatedTitle
+    }
+    if (task.updatedDescription != task.description) {
+      partialTask.description = task.updatedDescription
+    }
+    if (task.updatedDeadline != task.deadline) {
+      partialTask.deadline = this.formatDate(new Date(task.updatedDeadline!))
+    }
+
+    this.taskManagerService.updateTask(currentTaskTitle, partialTask, this.sectionName).subscribe(
+      data => {
+        task.title = task.updatedTitle
+        task.description = task.updatedDescription
+        task.deadline = task.updatedDeadline
+      }
+    )
+  }
+
   deleteTask(task: Task) {
     const isConfirmed = window.confirm(`Are you sure you want to delete the task: "${task.title}"?`);
     if (isConfirmed) {
@@ -177,6 +238,10 @@ export class TaskManagerComponent implements OnInit {
         subtasks: [],
         showSubtasks: false,
         showAddSubtaskForm: false,
+        editingField: null,
+        updatedTitle: '',
+        updatedDescription: '',
+        updatedDeadline: '',
       }
 
       this.taskManagerService.createTask(task, this.sectionName).subscribe(
@@ -228,10 +293,6 @@ export class TaskManagerComponent implements OnInit {
 
   editTask(index: number) {
     this.isEditing = true;
-  }
-
-  updateTask(index: number) {
-    this.isEditing = false;
   }
 
   formatDate(date: Date): string {
