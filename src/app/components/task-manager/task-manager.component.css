@@ -78,11 +78,13 @@ h2 {
   background-color: #f0f0f0;
   margin-bottom: 10px;
   gap: 25px;
+  flex-wrap: wrap;
 }
 
 .header-title,
 .header-description,
 .header-created,
+.header-completed,
 .header-deadline,
 .header-actions,
 .header-subtasks {
@@ -113,6 +115,7 @@ h2 {
 .header-deadline,
 .header-actions,
 .header-subtasks,
+.header-completed,
 .task-created,
 .task-deadline,
 .task-subtasks {
@@ -124,7 +127,8 @@ h2 {
   font-size: 15px;
 }
 
-.task-deadline {
+.task-deadline,
+.task-completed-date {
   flex: 1;
   font-size: 15px;
   font-weight: bold;
@@ -235,12 +239,12 @@ ul {
 }
 
 .delete-task {
-  background-color: #bd1717;
+  background-color: #dc3545;
   transition: background-color 0.3s ease;
 }
 
 .delete-task:hover {
-  background-color: #8c1212;
+  background-color: #c82333;
 }
 
 .add-subtask-form {
@@ -259,6 +263,8 @@ ul {
 }
 .add-subtask-form button {
   background-color: #28a745;
+  margin-left: 4px;
+  margin-right: 4px;
   color: white;
   border: none;
 }
@@ -266,8 +272,81 @@ ul {
   background-color: #218838;
 }
 
+.add-subtask-form .cancel-button {
+  background-color: #dc3545;
+  margin: 0px;
+  color: white;
+  border: none;
+}
+
+.add-subtask-form .cancel-button:hover {
+  background-color: #c82333;
+}
+
 .add-subtask-title,
 .add-subtask-description,
 .add-subtask-deadline {
   font-weight: bold;
 }
+
+.subtask-complete-button {
+  background-color: #28a745;
+}
+
+.subtask-complete-button:hover {
+  background-color: #218838;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: gray;
+}
+
+.completed-task {
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+}
+
+.task-title textarea,
+.task-description textarea {
+  width: 100%;
+  min-height: auto;
+  box-sizing: border-box;
+  font-size: 16px;
+  padding: 10px 20px 40px 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+  overflow-y: auto;
+}
+
+.task-deadline textarea {
+  width: 100%;
+  min-height: auto;
+  box-sizing: border-box;
+  font-size: 16px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.subtasks {
+  display: flex;
+  flex-direction: column;
+}
+
+.subtasks li {
+  margin-left: auto;
+  margin-right: 30px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.history-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
