@@ -20,8 +20,12 @@ export class StreakService {
     return this.http.post<Streak>(`${this.apiUrl}/${sectionName}`, newStreak);
   }
 
-  deleteStreak(name: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${name}`);
+  deleteStreak(name: string, sectionName: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${name}/${sectionName}`);
+  }
+
+  resetStreak(streak: Streak, sectionName: string): Observable<Streak> {
+    return this.http.patch<Streak>(`${this.apiUrl}/${sectionName}`, streak);
   }
 }
 

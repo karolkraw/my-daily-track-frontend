@@ -13,6 +13,7 @@ export class StreakComponent implements OnInit {
   sectionName!: string;
   newStreakName: string = '';
   loading = false;
+  today = new Date().toISOString().split('T')[0];
 
   constructor(private streakService: StreakService, private route: ActivatedRoute) {}
 
@@ -37,12 +38,10 @@ export class StreakComponent implements OnInit {
 
   createStreak(): void {
     if (this.newStreakName) {
-      const today = new Date().toISOString().split('T')[0];
-
       const newStreak: Streak = {
         name: this.newStreakName,
         days: 1,
-        startDate: today
+        startDate: this.today
       };
 
       this.streakService.createStreak(newStreak, this.sectionName).subscribe(
@@ -63,15 +62,33 @@ export class StreakComponent implements OnInit {
   }
 
   deleteStreak(name: string): void {
-    this.streakService.deleteStreak(name).subscribe(
-      () => {
-        this.streaks = this.streaks.filter(streak => streak.name !== name);
-        this.loading = false;
-      },
-      error => {
-        console.error('Error dele streak', error);
-        this.loading = false;
-      }
-    );
+    const isConfirmed = window.confirm(`Are you sure you want to delete the streak: "${name}"?`);
+    if (isConfirmed) {
+      this.streakService.deleteStreak(name, this.sectionName).subscribe(
+        () => {
+          this.streaks = this.streaks.filter(streak => streak.name !== name);
+          this.loading = false;
+        },
+        error => {
+          console.error('Error while deleting streak', error);
+          this.loading = false;
+        }
+      );
+    }
+  }
+
+  resetStreak(streakName: string): void {
+    const isConfirmed = window.confirm(`Are you sure you want to reset the streak: "${streakName}"?`);
+    if (isConfirmed) {
+      const streak = this.streaks.find(s => s.name === streakName);
+      this.streakService.resetStreak(streak!, this.sectionName).subscribe(
+        () => {
+          if (streak) {
+            streak.days = 0;
+            streak.startDate = this.today
+          }
+        }
+      );
+    }
   }
 }

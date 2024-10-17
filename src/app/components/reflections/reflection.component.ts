@@ -125,7 +125,29 @@ export class ReflectionComponent implements OnInit {
     this.currentHistoryDate = created;
     this.currentDate = created;
     this.textAreaContent = this.historyReflections.find(a => a.created === created)?.content || '';
+    this.previousReflections.reduce
+    this.nextReflections.reduce
+    this.loadNextBatch();
+    this.loadPreviousBatch();
   }
+
+/*   searchReflection(): void {
+    console.log(this.searchDate)
+    this.reflectionService.getReflectionByDateSearch(this.sectionName, this.formatDate(this.searchDate!)).subscribe(
+      reflection => {
+        this.currentReflection = reflection;
+        this.currentDate = this.formatDate(new Date(this.searchDate!));
+        //this.searchDate = this.currentDate;
+        this.previousReflections.reduce
+        this.nextReflections.reduce
+        this.loadNextBatch();
+        this.loadPreviousBatch();
+      },
+      error => {
+        console.error('No reflection found for this date');
+      }
+    );
+  } */
 
   onScroll(event: any) {
     if (!this.canLoadMore()) {
@@ -161,6 +183,7 @@ export class ReflectionComponent implements OnInit {
         this.currentReflection = reflection;
         this.currentDate = this.formatDate(new Date(this.searchDate!));
         //this.searchDate = this.currentDate;
+        this.textAreaContent = this.historyReflections.find(a => a.created === this.currentDate)?.content || '';
         this.previousReflections.reduce
         this.nextReflections.reduce
         this.loadNextBatch();

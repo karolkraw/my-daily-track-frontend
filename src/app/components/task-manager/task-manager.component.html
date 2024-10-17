@@ -25,7 +25,7 @@
         <mat-form-field appearance="fill">
           <input matInput [matDatepicker]="picker" [(ngModel)]="newDeadline" 
             [min]="tomorrow" name="deadline" autocomplete="off"
-            placeholder="Select a deadline" style="width: 150px;" />
+            placeholder="Select a deadline" style="width: 150px;" readonly />
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
@@ -157,10 +157,10 @@
 
           <ul *ngIf="task.showSubtasks" class="subtasks">
             <li *ngFor="let subtask of task.subtasks">
-              <strong>Title:</strong> {{ subtask.title }} <br />
-              <strong>Description:</strong> {{ subtask.description }} <br />
-              <strong>Created Date:</strong> {{ subtask.createdDate }} <br />
-              <strong>Completed Date:</strong> {{ subtask.completedDate }} <br />
+              <span> <strong>Title:</strong> {{ subtask.title }} </span>
+              <span class="task-description"> <strong>Description:</strong> {{ subtask.description }} </span>
+              <span> <strong>Created Date:</strong> {{ subtask.createdDate }} </span>
+              <span> <strong>Completed Date:</strong> {{ subtask.completedDate }} </span> <br />
             </li>
           </ul>
         </li>

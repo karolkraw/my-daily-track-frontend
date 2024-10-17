@@ -228,7 +228,7 @@ export class TaskManagerComponent implements OnInit {
   }
 
   createTask() {
-    if (this.newTaskTitle.trim()) {
+    if (this.newTaskTitle.trim() && this.newDeadline) {
       const task: Task = {
         title: this.newTaskTitle,
         description: this.newDescription,

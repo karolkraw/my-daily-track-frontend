@@ -13,6 +13,9 @@
     <div class="streak-days">{{ streak.days }}</div>
     <div class="streak-name">{{ streak.name }}</div>
     <div class="streak-date">Started on: {{ streak.startDate | date }}</div>
+    <button class="reset-button" (click)="resetStreak(streak.name)">
+      Reset Streak
+    </button>
   </div>
 </div>
 

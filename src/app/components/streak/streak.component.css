@@ -28,8 +28,28 @@
   width: 30px;
   height: 30px;
   cursor: pointer;
-  opacity: 0; /* Hidden by default */
+  opacity: 0;  /* Hidden by default */
   transition: opacity 0.3s ease;
+}
+
+.delete-button:hover {
+  background-color: #d71a1a;
+}
+
+.reset-button {
+  margin-top: 15px;
+  padding: 8px 12px;
+  background-color: #ff9800;
+  border: none;
+  color: white;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.reset-button:hover {
+  background-color: #e68900;
 }
 
 .streak-box:hover .delete-button {
@@ -40,10 +60,11 @@
   font-size: 48px;
   font-weight: bold;
   color: #4caf50;
+  margin-bottom: 15px;
 }
 
 .streak-name {
-  font-size: 24px;
+  font-size: 20px;
   color: #333;
   margin-top: 5px;
 }
