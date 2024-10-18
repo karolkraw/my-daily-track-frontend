@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ReflectionService } from '../../services/reflections/reflection.service';
 import { format } from 'date-fns';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Reflection } from '../../models/reflection.model';
 import { DatePipe } from '@angular/common';
 import { MatDateFormats, MAT_DATE_FORMATS } from '@angular/material/core';
@@ -44,7 +44,7 @@ export class ReflectionComponent implements OnInit {
   currentPage = 0;
   today: Date = new Date();
 
-  constructor(private reflectionService: ReflectionService, private route: ActivatedRoute, private datePipe: DatePipe) {}
+  constructor(private reflectionService: ReflectionService, private router: Router, private route: ActivatedRoute, private datePipe: DatePipe) {}
 
   async ngOnInit(): Promise<void> {
     this.sectionName = this.route.snapshot.paramMap.get('name') || '';
@@ -256,5 +256,16 @@ export class ReflectionComponent implements OnInit {
   goToCurrent(): void {
     this.currentDate = this.getFormattedCurrentDate();
     this.loadCurrentReflection();
+  }
+
+  goToMainPage(): void {
+    this.router.navigate([`section/${this.sectionName}`]);
+  }
+
+  goToSectionsPage(): void {
+    this.router.navigate(['']);
+  }
+  
+  logout(): void {
   }
 }
