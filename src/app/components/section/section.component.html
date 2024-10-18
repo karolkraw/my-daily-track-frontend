@@ -14,6 +14,9 @@
            class="section" 
            (click)="viewSection(section.name)">
         <h2>{{ section.name }}</h2>
+        <button class="delete-button" (click)="deleteSection($event, section.name)">
+          &times;
+        </button>
       </div>
     </div>
   </div>
