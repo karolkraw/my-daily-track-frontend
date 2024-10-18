@@ -101,6 +101,7 @@ body {
   text-align: center;
   padding: 15px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+  position: relative;
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
@@ -126,6 +127,29 @@ body {
 
 .section:nth-child(even):hover {
   background-color: #039be5;
+}
+
+.delete-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #c42424;
+  border: none;
+  color: white;
+  font-size: 20px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.section:hover .delete-button {
+  opacity: 1;
+}
+
+.delete-button:hover {
+  background-color: #d71a1a;
 }
 
 @media (max-width: 768px) {
