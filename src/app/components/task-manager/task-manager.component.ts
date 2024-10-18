@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TaskManagerService } from '../../services/task-manager/task-manager.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Task, Subtask } from '../../models/goal.model';
 import { format } from 'date-fns';
 import { DatePipe } from '@angular/common';
@@ -47,7 +47,7 @@ export class TaskManagerComponent implements OnInit {
 
   completedTasks: Task[] = [];
 
-  constructor(private taskManagerService: TaskManagerService, private route: ActivatedRoute) { }
+  constructor(private taskManagerService: TaskManagerService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.sectionName = this.route.snapshot.paramMap.get('name') || '';
@@ -126,10 +126,10 @@ export class TaskManagerComponent implements OnInit {
 
   editTaskField(task: Task, field: 'title' | 'description' | 'deadline') {
     task.editingField = field;
-    console.log(task.updatedTitle)
     task.updatedTitle = task.title;
     task.updatedDescription = task.description;
     task.updatedDeadline = task.deadline;
+
 
 
    /*  if(task.updatedTitle !== undefined && task.updatedTitle !== task.title)
@@ -173,14 +173,14 @@ export class TaskManagerComponent implements OnInit {
       partialTask.description = task.updatedDescription
     }
     if (task.updatedDeadline != task.deadline) {
-      partialTask.deadline = this.formatDate(new Date(task.updatedDeadline!))
+      partialTask.deadline = this.formatDate(new Date(task.updatedDeadline))
     }
 
     this.taskManagerService.updateTask(currentTaskTitle, partialTask, this.sectionName).subscribe(
       data => {
         task.title = task.updatedTitle
         task.description = task.updatedDescription
-        task.deadline = task.updatedDeadline
+        task.deadline = this.formatDateStartDay(new Date(task.updatedDeadline))
       }
     )
   }
@@ -196,17 +196,6 @@ export class TaskManagerComponent implements OnInit {
       )
     }
   }
-
-  /*deleteSubtask(taskIndex: number, subtaskIndex: number) {
-    const task = this.currentTasks[taskIndex]
-    const subtask = task.subtasks[subtaskIndex]
-    this.taskManagerService.deleteSubtask(subtask.title, task.title, this.sectionName).subscribe(
-      (data: any) => {
-        this.currentTasks[taskIndex].subtasks.splice(subtaskIndex, 1);
-      },
-    )
-  }
-    */
 
   checkIfAllSubtasksCompleted(task: Task): Boolean {
     return !task.subtasks.find(subtask => !subtask.completed);
@@ -225,6 +214,28 @@ export class TaskManagerComponent implements OnInit {
         }
       }
       );
+  }
+
+  deleteSubtask(task: Task, subtask: Subtask) {
+    const isConfirmed = window.confirm(`Are you sure you want to delete the subtask: "${subtask.title}"?`);
+    if (isConfirmed) {
+      this.taskManagerService.deleteSubtask(subtask.title, task.title, this.sectionName)
+        .subscribe(data => {
+          const foundTask = this.currentTasks.find(t => t.title === task.title);
+  
+          if (foundTask) {
+            const subtaskIndex = foundTask.subtasks.findIndex(st => st.title === subtask.title);
+  
+            if (subtaskIndex !== -1) {
+              foundTask.subtasks.splice(subtaskIndex, 1);
+            } else {
+              console.error('Subtask not found in the task');
+            }
+          } else {
+            console.error('Task not found');
+          }
+        });
+    }
   }
 
   createTask() {
@@ -281,16 +292,6 @@ export class TaskManagerComponent implements OnInit {
     )
   }
 
-  deleteSubtask(taskIndex: number, subtaskIndex: number) {
-    const task = this.currentTasks[taskIndex]
-    const subtask = task.subtasks[subtaskIndex]
-    this.taskManagerService.deleteSubtask(subtask.title, task.title, this.sectionName).subscribe(
-      (data: any) => {
-        this.currentTasks[taskIndex].subtasks.splice(subtaskIndex, 1);
-      },
-    )
-  }
-
   editTask(index: number) {
     this.isEditing = true;
   }
@@ -301,6 +302,17 @@ export class TaskManagerComponent implements OnInit {
 
   formatDateStartDay(date: Date): string {
     return format(date, 'dd-MM-yyyy');
+  }
+
+  goToMainPage(): void {
+    this.router.navigate([`section/${this.sectionName}`]);
+  }
+
+  goToSectionsPage(): void {
+    this.router.navigate(['']);
+  }
+
+  logout(): void {
   }
 }
 
