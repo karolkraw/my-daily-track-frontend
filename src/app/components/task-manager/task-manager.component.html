@@ -9,12 +9,23 @@
 
 <body>
   <div class="app-container">
-    <!-- Navigation Panel -->
-    <nav class="navigation-panel">
-      <button class="nav-btn" (click)="switchPanel('create')">Create Task</button>
-      <button class="nav-btn" (click)="switchPanel('current')">Current Tasks</button>
-      <button class="nav-btn" (click)="switchPanel('history')">History</button>
-    </nav>
+    <div class="header-container">
+      <!-- Navigation Panel -->
+      <nav class="navigation-panel">
+        <button class="nav-btn" (click)="switchPanel('create')">Create Task</button>
+        <button class="nav-btn" (click)="switchPanel('current')">Current Tasks</button>
+        <button class="nav-btn" (click)="switchPanel('history')">History</button>
+      </nav>
+  
+      <!-- Header Buttons on the right -->
+      <div class="header-buttons">
+        <button (click)="goToSectionsPage()" class="header-button">go to sections page</button>
+        <button (click)="goToMainPage()" class="header-button">go to main page</button>
+        <button (click)="logout()" class="header-button logout-button">logout</button>
+      </div>
+    </div>
+
+    
 
     <!-- Task Creation Panel -->
     <div *ngIf="activePanel === 'create'" class="task-panel" id="add-task-panel">
@@ -67,7 +78,7 @@
             <span class="task-created">{{task.createdDate}}</span>
             <span (click)="editTaskField(task, 'deadline')" class="task-deadline" (blur)="cancelUpdate(task)"> 
               <mat-form-field *ngIf="task.editingField === 'deadline'" appearance="fill">
-                <input matInput [matDatepicker]="picker" [(ngModel)]="newDeadline" 
+                <input matInput [matDatepicker]="picker" [(ngModel)]="task.updatedDeadline" 
                   [min]="tomorrow" name="deadline" autocomplete="off"
                   placeholder="Select a deadline" style="width: 150px;" />
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -102,9 +113,14 @@
               </div>
 
               <!-- Complete button -->
+               <span>
               <button *ngIf="!subtask.completed" (click)="markSubtaskComplete(task, subtask)" class="subtask-complete-button" [disabled]="subtask.completed">
                 {{ subtask.completed ? 'Completed' : 'Mark as Complete' }}
               </button>
+              <button *ngIf="!subtask.completed" (click)="deleteSubtask(task, subtask)" class="subtask-delete-button" [disabled]="subtask.completed">
+                {{ "Delete" }}
+              </button>
+            </span>
             </li>
           </ul>
 
