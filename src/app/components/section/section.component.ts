@@ -48,4 +48,18 @@ export class SectionComponent implements OnInit {
   viewSection(name: string) {
     this.router.navigate(['/section', name]);
   }
+
+  deleteSection(event: Event, name: string): void {
+    event.stopPropagation();
+    const isConfirmed = window.confirm(`Are you sure you want to delete the section: "${name}"?`);
+    if (isConfirmed) {
+      this.sectionService.deleteSection(name).subscribe(
+        () => {
+          this.sections = this.sections.filter(section => section.name !== name);
+        },
+      );
+    }
+  }
+
+  
 }
