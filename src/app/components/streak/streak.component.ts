@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { StreakService } from '../../services/streak/streak.service';
 import { Streak } from '../../models/streak.model';
 
@@ -15,7 +15,7 @@ export class StreakComponent implements OnInit {
   loading = false;
   today = new Date().toISOString().split('T')[0];
 
-  constructor(private streakService: StreakService, private route: ActivatedRoute) {}
+  constructor(private streakService: StreakService, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.sectionName = this.route.snapshot.paramMap.get('name') || '';
@@ -90,5 +90,16 @@ export class StreakComponent implements OnInit {
         }
       );
     }
+  }
+
+  goToMainPage(): void {
+    this.router.navigate([`section/${this.sectionName}`]);
+  }
+
+  goToSectionsPage(): void {
+    this.router.navigate(['']);
+  }
+  
+  logout(): void {
   }
 }
