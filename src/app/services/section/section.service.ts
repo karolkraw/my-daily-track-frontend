@@ -19,4 +19,8 @@ export class SectionService {
   addSection(section: Section): Observable<Section> {
     return this.http.post<Section>(this.apiUrl, section);
   }
+
+  deleteSection(name: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${name}`);
+  }
 }
