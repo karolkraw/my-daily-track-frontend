@@ -1,0 +1,115 @@
+.background-container {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+/* Full page container */
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 25px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  min-width: 330px;
+  margin: auto;
+  text-align: center;
+}
+
+/* Title Styling */
+.login-container h2 {
+  margin-bottom: 2rem;
+  font-size: 28px;
+  color: #333;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+/* Form Styling */
+.login-container form {
+  width: 100%;
+}
+
+.login-container form div {
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+/* Label Styling */
+.login-container form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #444;
+  font-size: 14px;
+}
+
+/* Input Styling */
+.login-container form input {
+  width: 92%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.login-container form input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Error Message Styling */
+.error-message {
+  color: #ff4d4f;
+  font-size: 14px;
+  margin-top: 0.5rem;
+}
+
+/* Button Styling */
+.login-container form button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+  margin-bottom: 1rem;
+}
+
+.login-container form button:hover {
+  background-color: #0056b3;
+}
+
+.login-container form button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Register Link Styling */
+.login-container p {
+  margin-top: 1rem;
+  font-size: 14px;
+  color: #555;
+}
+
+.login-container p a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.login-container p a:hover {
+  text-decoration: underline;
+}
