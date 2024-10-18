@@ -31,4 +31,8 @@ export class SectionAreaComponent implements OnInit {
   viewArea(areaName: string): void {
     this.router.navigate([areaName.toLowerCase()], { relativeTo: this.route });
   }
+
+  goToSections(): void {
+    this.router.navigate(['']);
+  }
 }

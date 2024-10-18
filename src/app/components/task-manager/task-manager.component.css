@@ -291,10 +291,21 @@ ul {
 
 .subtask-complete-button {
   background-color: #28a745;
+  width: 150px;
+  margin-right: 4px;
 }
 
 .subtask-complete-button:hover {
   background-color: #218838;
+}
+
+.subtask-delete-button {
+  background-color: #dc4352;
+  width: 150px;
+}
+
+.subtask-delete-button:hover {
+  background-color: #c82333;
 }
 
 .completed {
@@ -352,3 +363,45 @@ ul {
   width: 100%;
 }
 
+.header-container {
+  display: flex;
+  justify-content: space-between; /* Distribute space between nav and header buttons */
+  align-items: center; /* Align items vertically */
+  padding: 10px; /* Add some padding if needed */
+}
+
+.header-buttons {
+  position: absolute; /* Use absolute positioning */
+  right: 10px; /* Align to the right */
+  top: 10px; /* Align at the top of the header */
+  display: flex; /* Display header buttons in a row */
+}
+
+.header-button {
+  margin-left: 5px; /* Space between header buttons */
+  padding: 10px 20px;
+  background-color: #59d857; /* Green background for general buttons */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.header-button:hover {
+  background-color: #2bae3c;
+}
+
+.header-button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+.logout-button {
+  background-color: #c42424; /* Red background for logout button */
+}
+
+.logout-button:hover {
+  background-color: #a81d1d; /* Darker red on hover */
+}
