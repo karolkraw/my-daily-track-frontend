@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Reflection } from '../../models/reflection.model';
 import { DatePipe } from '@angular/common';
 import { MatDateFormats, MAT_DATE_FORMATS } from '@angular/material/core';
+import { AuthService } from '../../services/auth/auth.service';
 
 
 export const MY_DATE_FORMATS: MatDateFormats = {
@@ -44,7 +45,8 @@ export class ReflectionComponent implements OnInit {
   currentPage = 0;
   today: Date = new Date();
 
-  constructor(private reflectionService: ReflectionService, private router: Router, private route: ActivatedRoute, private datePipe: DatePipe) {}
+  constructor(public authService: AuthService, private reflectionService: ReflectionService, private router: Router, 
+    private route: ActivatedRoute, private datePipe: DatePipe) {}
 
   async ngOnInit(): Promise<void> {
     this.sectionName = this.route.snapshot.paramMap.get('name') || '';
@@ -267,5 +269,6 @@ export class ReflectionComponent implements OnInit {
   }
   
   logout(): void {
+    this.authService.logout();
   }
 }
