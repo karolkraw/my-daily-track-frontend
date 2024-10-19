@@ -18,16 +18,8 @@ h2 {
   margin-bottom: 0px;
 }
 
-/* Top button styles with fixed positioning */
-.top-button {
-  position: fixed; /* Fixed positioning to stay at the top */
-  top: 20px; /* Distance from the top */
-  right: 20px; /* Distance from the right */
-  z-index: 1000; /* Ensures the button stays on top of other content */
-}
-
 button {
-  background-color: #03a9f4;
+  background-color: #4bcd5d;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -38,9 +30,31 @@ button {
 }
 
 button:hover {
-  background-color: #0288d1;
+  background-color: #64c869;
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.sections-button {
+  position: fixed;
+  top: 20px;
+  right: 108px;
+  z-index: 1000;
+}
+
+.logout-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.logout-button button {
+  background-color: #d71a1a;
+}
+
+.logout-button button:hover {
+  background-color: #c42424;
 }
 
 .areas-container {
