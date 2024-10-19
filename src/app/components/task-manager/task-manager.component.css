@@ -399,9 +399,9 @@ ul {
 }
 
 .logout-button {
-  background-color: #c42424; /* Red background for logout button */
+  background-color: #d71a1a; /* Red background for logout button */
 }
 
 .logout-button:hover {
-  background-color: #a81d1d; /* Darker red on hover */
+  background-color: #c42424; /* Darker red on hover */
 }
