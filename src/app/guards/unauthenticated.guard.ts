@@ -10,12 +10,11 @@ export class UnauthenticatedGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(): boolean {
-    return true;
-    /* if (!this.authService.isLoggedIn()) {
-      return true; // Allow access if not logged in
+    if (!this.authService.isLoggedIn()) {
+      return true;
     } else {
-      this.router.navigate(['/products']); // Redirect to a different page if already logged in
+      this.router.navigate(['/section']);
       return false;
-    } */
+    }
   } 
 }
