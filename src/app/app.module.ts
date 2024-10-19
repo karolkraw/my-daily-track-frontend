@@ -24,26 +24,33 @@ import { UnauthenticatedGuard } from './guards/unauthenticated.guard';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthGuard } from './guards/auth.guard';
 import { TokenInterceptor } from './interceptors/token.interceptor';
+import { MainLayoutComponent } from './components/main-layout.component/main-layout.component';
 
 
 const routes: Routes = [
    {
     path: 'auth',
     component: AuthLayoutComponent,
-    //canActivate: [UnauthenticatedGuard], // Protect these routes
+    canActivate: [UnauthenticatedGuard],
     children: [
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
-      { path: '', redirectTo: 'login', pathMatch: 'full' } // No guard needed here
+      { path: '', redirectTo: 'login', pathMatch: 'full' }
     ]
   }, 
-  { path: '', component: SectionComponent },
-  { path: 'section', component: SectionComponent, canActivate: [AuthGuard] },
-  { path: 'section/:name', component: SectionAreaComponent, canActivate: [AuthGuard] },
-  { path: 'section/:name/streak', component: StreakComponent, canActivate: [AuthGuard] },
-  { path: 'section/:name/reflections', component: ReflectionComponent, canActivate: [AuthGuard] },
-  { path: 'section/:name/goals', component: TaskManagerComponent, canActivate: [AuthGuard] },
-  { path: '**', redirectTo: '' }, 
+  {
+    path: '',
+    component: MainLayoutComponent,
+    children: [
+      { path: '', component: SectionComponent, canActivate: [AuthGuard] },
+      { path: 'section', component: SectionComponent, canActivate: [AuthGuard] },
+      { path: 'section/:name', component: SectionAreaComponent, canActivate: [AuthGuard] },
+      { path: 'section/:name/streak', component: StreakComponent, canActivate: [AuthGuard] },
+      { path: 'section/:name/reflections', component: ReflectionComponent, canActivate: [AuthGuard] },
+      { path: 'section/:name/goals', component: TaskManagerComponent, canActivate: [AuthGuard] },
+      { path: '**', redirectTo: '' }, 
+    ]
+  }
 ];
 
 @NgModule({
@@ -57,6 +64,7 @@ const routes: Routes = [
     LoginComponent,
     AuthLayoutComponent,
     RegisterComponent,
+    MainLayoutComponent,
   ],
   imports: [
     BrowserModule,
