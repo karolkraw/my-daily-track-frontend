@@ -7,6 +7,7 @@ import { DatePipe } from '@angular/common';
 import { MatDateFormats, MAT_DATE_FORMATS } from '@angular/material/core';
 import { interval } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { AuthService } from '../../services/auth/auth.service';
 
 
 
@@ -47,7 +48,8 @@ export class TaskManagerComponent implements OnInit {
 
   completedTasks: Task[] = [];
 
-  constructor(private taskManagerService: TaskManagerService, private router: Router, private route: ActivatedRoute) { }
+  constructor(public authService: AuthService, private taskManagerService: TaskManagerService, 
+    private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.sectionName = this.route.snapshot.paramMap.get('name') || '';
@@ -313,6 +315,7 @@ export class TaskManagerComponent implements OnInit {
   }
 
   logout(): void {
+    this.authService.logout();
   }
 }
 
