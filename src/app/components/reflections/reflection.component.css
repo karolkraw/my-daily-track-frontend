@@ -253,6 +253,10 @@ button:disabled {
 }
 
 .header-buttons .logout-button {
+  background-color: #d71a1a;
+}
+
+.header-buttons .logout-button:hover {
   background-color: #c42424;
 }
 
