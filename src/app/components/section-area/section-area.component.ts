@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { Area } from '../../models/area.model';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-section',
@@ -20,7 +21,7 @@ export class SectionAreaComponent implements OnInit {
     //{ id: 6, name: "Planner" }
   ];
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(public authService: AuthService, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -34,5 +35,9 @@ export class SectionAreaComponent implements OnInit {
 
   goToSections(): void {
     this.router.navigate(['']);
+  }
+
+  logout(): void {
+    this.authService.logout();
   }
 }

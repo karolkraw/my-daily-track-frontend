@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StreakService } from '../../services/streak/streak.service';
 import { Streak } from '../../models/streak.model';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-streak',
@@ -15,7 +16,8 @@ export class StreakComponent implements OnInit {
   loading = false;
   today = new Date().toISOString().split('T')[0];
 
-  constructor(private streakService: StreakService, private router: Router, private route: ActivatedRoute) {}
+  constructor(public authService: AuthService, private streakService: StreakService,
+    private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.sectionName = this.route.snapshot.paramMap.get('name') || '';
@@ -101,5 +103,6 @@ export class StreakComponent implements OnInit {
   }
   
   logout(): void {
+    this.authService.logout();
   }
 }
