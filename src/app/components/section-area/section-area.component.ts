@@ -13,10 +13,10 @@ export class SectionAreaComponent implements OnInit {
   activeArea = false;
   sectionId!: number;
   areas: Area[] = [
-    { id: 1, name: "Streak" },
-    { id: 2, name: "Reflections" },
+    { id: 1, name: "Goals" },
+    { id: 2, name: "Journal" },
     //{ id: 3, name: "Ideas" },
-    { id: 4, name: "Goals" },
+    { id: 4, name: "Streak" },
     //{ id: 5, name: "To Do" },
     //{ id: 6, name: "Planner" }
   ];

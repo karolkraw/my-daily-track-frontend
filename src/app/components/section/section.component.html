@@ -1,5 +1,10 @@
 
 <body>
+  <div class="explanation">
+    <p>This page allows you to create and manage sections representing different aspects of your life.</p>
+    <p>Add new sections and navigate to each one to set your goals, track your streaks, and journal your thoughts.</p>
+  </div>
+  <button class="logout-button" (click)="logout()">logout</button>
   <div [ngClass]="sections.length === 0 ? 'empty' : 'container'">
     <div class="add-section">
       <input 

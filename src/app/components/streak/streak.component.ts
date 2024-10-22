@@ -87,7 +87,9 @@ export class StreakComponent implements OnInit {
         () => {
           if (streak) {
             streak.days = 0;
-            streak.startDate = this.today
+            const today = new Date(this.today);
+            today.setDate(today.getDate() + 1);
+            streak.startDate = today.toISOString().split('T')[0];
           }
         }
       );

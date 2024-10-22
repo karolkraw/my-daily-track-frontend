@@ -89,6 +89,10 @@ export class ReflectionComponent implements OnInit {
   }
 
   async loadCurrentReflection(): Promise<void> {
+    this.currentReflection = {
+      content: "",
+      created: this.currentDate
+    };
     return new Promise((resolve, reject) => {
       const formattedDate = this.currentDate;
       this.reflectionService.getReflectionByDate(this.sectionName, formattedDate).subscribe(currentReflection => {
@@ -127,8 +131,10 @@ export class ReflectionComponent implements OnInit {
     this.currentHistoryDate = created;
     this.currentDate = created;
     this.textAreaContent = this.historyReflections.find(a => a.created === created)?.content || '';
-    this.previousReflections.reduce
-    this.nextReflections.reduce
+    this.previousReflections = [];
+    this.nextReflections = [];
+    this.currentReflection!.created = this.currentDate
+    this.currentReflection!.content = this.textAreaContent
     this.loadNextBatch();
     this.loadPreviousBatch();
   }
@@ -179,7 +185,6 @@ export class ReflectionComponent implements OnInit {
   }
 
   searchReflection(): void {
-    console.log(this.searchDate)
     this.reflectionService.getReflectionByDateSearch(this.sectionName, this.formatDate(this.searchDate!)).subscribe(
       reflection => {
         this.currentReflection = reflection;
@@ -198,41 +203,46 @@ export class ReflectionComponent implements OnInit {
   }
 
   loadNextBatch(): void {
-    if (this.currentReflection) {
+    if (this.currentReflection) 
       this.lastFetchedDate = this.currentReflection.created;
-      this.reflectionService.getNextBatch(this.sectionName, this.lastFetchedDate, this.limit).subscribe(
-        reflections => {
-          if (reflections.length) {
-            this.nextReflections = reflections;
-          } else {
-            console.log('No more next reflections available');
-          }
+    else 
+      this.lastFetchedDate = this.currentDate
+
+    this.reflectionService.getNextBatch(this.sectionName, this.lastFetchedDate, this.limit).subscribe(
+      reflections => {
+        if (reflections.length) {
+          this.nextReflections = reflections;
+        } else {
+          console.log('No more next reflections available');
         }
-      );
-    }
+      }
+    );
   }
 
   loadPreviousBatch(): void {
-    if (this.currentReflection) {
+    if (this.currentReflection) 
       this.lastFetchedDate = this.currentReflection.created;
-      this.reflectionService.getPreviousBatch(this.sectionName, this.lastFetchedDate, this.limit).subscribe(
-        reflections => {
-          if (reflections.length) {
-            this.previousReflections = reflections;
-          } else {
-            console.log('No more previous reflections available');
-          }
+    else 
+      this.lastFetchedDate = this.currentDate
+    this.reflectionService.getPreviousBatch(this.sectionName, this.lastFetchedDate, this.limit).subscribe(
+      reflections => {
+        if (reflections.length) {
+          this.previousReflections = reflections;
+        } else {
+          console.log('No more previous reflections available');
         }
-      );
-    }
+      }
+    );
   }
 
   onNextClick(): void {
     if (this.nextReflections.length > 0) {
       this.previousReflections.unshift(this.currentReflection!); // Save current reflection to previous
       this.currentReflection = this.nextReflections.shift()!;
-      this.textAreaContent = this.currentReflection.content;
-      this.currentDate = this.currentReflection.created;
+      if (this.currentReflection) {
+        this.textAreaContent = this.currentReflection.content;
+        this.currentDate = this.currentReflection.created;
+      }
       if (this.nextReflections.length === 0) {
         this.loadNextBatch();
       }
@@ -243,12 +253,23 @@ export class ReflectionComponent implements OnInit {
 
   onPreviousClick(): void {
     if (this.previousReflections.length > 0) {
-      this.nextReflections.unshift(this.currentReflection!); // Save current reflection to next
+      if(this.currentReflection)
+        this.nextReflections.unshift(this.currentReflection!);
+
       this.currentReflection = this.previousReflections.shift()!;
-      this.textAreaContent = this.currentReflection.content;
-      this.currentDate = this.currentReflection.created;
+      if (this.currentReflection) {
+        this.textAreaContent = this.currentReflection.content;
+        this.currentDate = this.currentReflection.created;
+      }
+      else {
+        this.textAreaContent = ''
+        this.currentDate = this.formatDate(new Date())
+      }
       if (this.previousReflections.length === 0) {
         this.loadPreviousBatch();
+        /* if (this.previousReflections.length == 0) {
+          this.previousReflections.unshift(this.currentReflection!);
+        } */
       }
     } else {
       console.log('No more previous reflections available');
@@ -257,7 +278,12 @@ export class ReflectionComponent implements OnInit {
 
   goToCurrent(): void {
     this.currentDate = this.getFormattedCurrentDate();
+    this.currentReflection!.created = this.currentDate
     this.loadCurrentReflection();
+    this.previousReflections = [];
+    this.nextReflections = []
+    this.loadNextBatch();
+    this.loadPreviousBatch();
   }
 
   goToMainPage(): void {

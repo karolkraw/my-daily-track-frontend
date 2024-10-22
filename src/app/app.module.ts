@@ -46,7 +46,7 @@ const routes: Routes = [
       { path: 'section', component: SectionComponent, canActivate: [AuthGuard] },
       { path: 'section/:name', component: SectionAreaComponent, canActivate: [AuthGuard] },
       { path: 'section/:name/streak', component: StreakComponent, canActivate: [AuthGuard] },
-      { path: 'section/:name/reflections', component: ReflectionComponent, canActivate: [AuthGuard] },
+      { path: 'section/:name/journal', component: ReflectionComponent, canActivate: [AuthGuard] },
       { path: 'section/:name/goals', component: TaskManagerComponent, canActivate: [AuthGuard] },
       { path: '**', redirectTo: '' }, 
     ]

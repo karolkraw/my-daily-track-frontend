@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Section } from '../../models/section.model';
 import { SectionService } from '../../services/section/section.service';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-main',
@@ -13,7 +14,7 @@ export class SectionComponent implements OnInit {
   sectionToAdd: String = "";
   nextId: number = 1;
 
-  constructor(private sectionService: SectionService, private router: Router) {}
+  constructor(public authService: AuthService, private sectionService: SectionService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadSections()
@@ -61,5 +62,7 @@ export class SectionComponent implements OnInit {
     }
   }
 
-  
+  logout(): void {
+    this.authService.logout();
+  }
 }
