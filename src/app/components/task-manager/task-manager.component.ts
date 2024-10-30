@@ -66,36 +66,12 @@ export class TaskManagerComponent implements OnInit {
   loadHistoryTasks(): void {
     this.taskManagerService.getHistoryTasks(this.sectionName).subscribe(
       (response) => {
-        if (response.status === 'processing') {
-          this.pollForHistoryTasks();
-        } else {
-          this.history = response.data;
-        }
+        this.history = response.data;
       },
       (error) => {
         console.error('Error fetching history tasks:', error);
       }
     );
-  }
-
-  pollForHistoryTasks(): void {
-    const pollInterval = 300;
-    const pollSubscription = interval(pollInterval).pipe(
-      switchMap(() => this.taskManagerService.pollHistoryTasks(this.sectionName)))
-      .subscribe(
-        (response) => {
-          if (response.status === 'processing') {
-            console.log('History task is still processing...');
-          } else {
-            this.history = response.data;
-            pollSubscription.unsubscribe();
-          }
-        },
-        (error) => {
-          console.error('Error polling history tasks:', error);
-          pollSubscription.unsubscribe();
-        }
-      );
   }
 
   switchPanel(panel: string) {
