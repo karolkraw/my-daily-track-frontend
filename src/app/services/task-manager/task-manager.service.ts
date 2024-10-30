@@ -8,7 +8,7 @@ import { Task, Subtask } from '../../models/goal.model';
   providedIn: 'root'
 })
 export class TaskManagerService {
-  private baseUrl = 'http://localhost:8080/goals';
+  private baseUrl = 'http://localhost:8000/goals';
 
   constructor(private http: HttpClient) {}
 
@@ -18,6 +18,10 @@ export class TaskManagerService {
 
   getHistoryTasks(sectionName: string): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/history/${sectionName}/`);
+  }
+
+  pollHistoryTasks(sectionName: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/poll_history/${sectionName}/`);
   }
 
   createTask(task: Task, sectionName: string): Observable<String> {
