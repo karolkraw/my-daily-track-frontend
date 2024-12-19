@@ -1,27 +1,55 @@
-# MyDailyTrack
+## Daily Track - Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.2.
+Application is hosted on AWS and can be accessed [here](http://ec2-34-195-193-33.compute-1.amazonaws.com:4200/auth/login).  
+To explore the app with pre-defined data, you can log in using the demo account:
+- **Login:** demo
+- **Password:** demo
 
-## Development server
+## Spring Boot Core Backend 
+https://github.com/karolkraw/my-daily-track
+## Django Backend service
+https://github.com/karolkraw/my-goals
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Table of Contents
+- [Overview](#overview)
+- [Features](#features)
+- [Technologies](#technologies)
+- [Setup](#setup)
 
-## Code scaffolding
+## Overview
+Daily Track is a personal growth platform designed to help users improve productivity, maintain habits, and reflect on their progress. Built primarily for learning purposes.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Features
 
-## Build
+### Journaling
+- Write and save daily thoughts.
+- Access a searchable history of all past journal entries.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Streak Tracking
+- Monitor how long you’ve maintained a habit or activity.
 
-## Running unit tests
+### To-Do List with Subtasks
+- Create tasks with deadlines and break them down into manageable subtasks.
+- View a detailed history of completed tasks to track accomplishments.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Technologies
 
-## Running end-to-end tests
+### Backend
+- ![Spring Boot](https://img.shields.io/badge/Spring_Boot-F2F4F9?style=for-the-badge&logo=spring-boot)
+- ![Python](https://img.shields.io/badge/Python%203.9-blue?style=for-the-badge&logo=python&logoColor=white)
+- ![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+### Frontend
+- ![Angular](https://img.shields.io/badge/angular-%23DD0031.svg?style=for-the-badge&logo=angular&logoColor=white)
+- ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+- ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 
-## Further help
+### Communication and Infrastructure
+- ![Apache Kafka](https://img.shields.io/badge/Apache_Kafka-231F20?style=for-the-badge&logo=apache-kafka&logoColor=white)
+- ![Redis](https://img.shields.io/badge/Redis-D9281A?style=for-the-badge&logo=redis&logoColor=white)
+- ![Celery](https://img.shields.io/badge/Celery-37814A?style=for-the-badge&logo=celery&logoColor=white)
+- ![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### DevOps
+- Hosted on **AWS**
+- Fully containerized using Docker Compose
